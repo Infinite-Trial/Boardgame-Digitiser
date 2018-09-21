@@ -71,7 +71,7 @@ static void help()
 }
 const char* keys =
 {
-	"{help h | | show help message}{@camera_number| 1 | camera number}"
+	"{help h | | show help message}{@camera_number| 0 | camera number}"
 };
 int main(int argc, const char** argv)
 {
@@ -96,6 +96,7 @@ int main(int argc, const char** argv)
 		parser.printMessage();
 		return -1;
 	}
+
 	cout << hot_keys;
 	namedWindow("Histogram", 0);
 	namedWindow("CamShift Demo", 0);
