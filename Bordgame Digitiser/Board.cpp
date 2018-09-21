@@ -71,7 +71,7 @@ static void help()
 }
 const char* keys =
 {
-	"{help h | | show help message}{@camera_number| 0 | camera number}"
+	"{help h | | show help message}{@camera_number| 1 | camera number}"
 };
 int main(int argc, const char** argv)
 {
