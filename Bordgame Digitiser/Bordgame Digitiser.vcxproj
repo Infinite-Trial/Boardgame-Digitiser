@@ -105,8 +105,10 @@
       <AdditionalIncludeDirectories>C:\Users\mario\Documents\OpenCV\opencv\build\include;C:\Users\Angelo\source\opencv\build\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opencv_world341d.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Users\Angelo\source\opencv\build\x64\vc14\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opencv_world343d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\mario\Documents\OpenCV\opencv\build\x64\vc14\lib;C:\Users\Angelo\source\opencv\build\x64\vc14\lib</AdditionalLibraryDirectories>
+      <EntryPointSymbol>Main</EntryPointSymbol>
+      <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
