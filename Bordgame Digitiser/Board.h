@@ -121,6 +121,12 @@ namespace BordgameDigitiser {
 	private: System::Windows::Forms::PictureBox^  whitePawn4;
 	private: System::Windows::Forms::PictureBox^  whiteRook1;
 	private: System::Windows::Forms::PictureBox^  whiteKnight1;
+private: System::Windows::Forms::Button^  nächsterZugButton;
+
+private: System::Windows::Forms::Button^  zurückButton;
+
+
+private: System::Windows::Forms::Panel^  panel1;
 
 
 
@@ -187,6 +193,9 @@ namespace BordgameDigitiser {
 			this->backgroundWorker1 = (gcnew System::ComponentModel::BackgroundWorker());
 			this->gameLog = (gcnew System::Windows::Forms::ListBox());
 			this->gameLogPanel = (gcnew System::Windows::Forms::Panel());
+			this->nächsterZugButton = (gcnew System::Windows::Forms::Button());
+			this->panel1 = (gcnew System::Windows::Forms::Panel());
+			this->zurückButton = (gcnew System::Windows::Forms::Button());
 			this->chessBoardPanel->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->whitePawn1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->whitePawn2))->BeginInit();
@@ -220,6 +229,7 @@ namespace BordgameDigitiser {
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->blackBishop2))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->blackQueen))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->blackKing))->BeginInit();
+			this->buttonPanel->SuspendLayout();
 			this->gameLogPanel->SuspendLayout();
 			this->SuspendLayout();
 			// 
@@ -272,7 +282,7 @@ namespace BordgameDigitiser {
 			this->whitePawn1->Location = System::Drawing::Point(0, 1440);
 			this->whitePawn1->Name = L"whitePawn1";
 			this->whitePawn1->Size = System::Drawing::Size(240, 240);
-			this->whitePawn1->TabIndex = 22;
+			this->whitePawn1->TabIndex = 1;
 			this->whitePawn1->TabStop = false;
 			this->whitePawn1->Click += gcnew System::EventHandler(this, &Board::pictureBox27_Click);
 			// 
@@ -284,7 +294,7 @@ namespace BordgameDigitiser {
 			this->whitePawn2->Location = System::Drawing::Point(240, 1440);
 			this->whitePawn2->Name = L"whitePawn2";
 			this->whitePawn2->Size = System::Drawing::Size(240, 240);
-			this->whitePawn2->TabIndex = 21;
+			this->whitePawn2->TabIndex = 2;
 			this->whitePawn2->TabStop = false;
 			this->whitePawn2->Click += gcnew System::EventHandler(this, &Board::pictureBox28_Click);
 			// 
@@ -296,7 +306,7 @@ namespace BordgameDigitiser {
 			this->whitePawn3->Location = System::Drawing::Point(480, 1440);
 			this->whitePawn3->Name = L"whitePawn3";
 			this->whitePawn3->Size = System::Drawing::Size(240, 240);
-			this->whitePawn3->TabIndex = 20;
+			this->whitePawn3->TabIndex = 3;
 			this->whitePawn3->TabStop = false;
 			this->whitePawn3->Click += gcnew System::EventHandler(this, &Board::pictureBox29_Click);
 			// 
@@ -308,7 +318,7 @@ namespace BordgameDigitiser {
 			this->whitePawn4->Location = System::Drawing::Point(720, 1440);
 			this->whitePawn4->Name = L"whitePawn4";
 			this->whitePawn4->Size = System::Drawing::Size(240, 240);
-			this->whitePawn4->TabIndex = 19;
+			this->whitePawn4->TabIndex = 4;
 			this->whitePawn4->TabStop = false;
 			this->whitePawn4->Click += gcnew System::EventHandler(this, &Board::pictureBox30_Click);
 			// 
@@ -320,7 +330,7 @@ namespace BordgameDigitiser {
 			this->whitePawn5->Location = System::Drawing::Point(960, 1440);
 			this->whitePawn5->Name = L"whitePawn5";
 			this->whitePawn5->Size = System::Drawing::Size(240, 240);
-			this->whitePawn5->TabIndex = 32;
+			this->whitePawn5->TabIndex = 5;
 			this->whitePawn5->TabStop = false;
 			this->whitePawn5->Click += gcnew System::EventHandler(this, &Board::pictureBox17_Click);
 			// 
@@ -332,7 +342,7 @@ namespace BordgameDigitiser {
 			this->whitePawn6->Location = System::Drawing::Point(1200, 1440);
 			this->whitePawn6->Name = L"whitePawn6";
 			this->whitePawn6->Size = System::Drawing::Size(240, 240);
-			this->whitePawn6->TabIndex = 31;
+			this->whitePawn6->TabIndex = 6;
 			this->whitePawn6->TabStop = false;
 			this->whitePawn6->Click += gcnew System::EventHandler(this, &Board::pictureBox18_Click);
 			// 
@@ -344,7 +354,7 @@ namespace BordgameDigitiser {
 			this->whitePawn7->Location = System::Drawing::Point(1440, 1440);
 			this->whitePawn7->Name = L"whitePawn7";
 			this->whitePawn7->Size = System::Drawing::Size(240, 240);
-			this->whitePawn7->TabIndex = 30;
+			this->whitePawn7->TabIndex = 7;
 			this->whitePawn7->TabStop = false;
 			this->whitePawn7->Click += gcnew System::EventHandler(this, &Board::pictureBox19_Click);
 			// 
@@ -356,7 +366,7 @@ namespace BordgameDigitiser {
 			this->whitePawn8->Location = System::Drawing::Point(1680, 1440);
 			this->whitePawn8->Name = L"whitePawn8";
 			this->whitePawn8->Size = System::Drawing::Size(240, 240);
-			this->whitePawn8->TabIndex = 29;
+			this->whitePawn8->TabIndex = 8;
 			this->whitePawn8->TabStop = false;
 			this->whitePawn8->Click += gcnew System::EventHandler(this, &Board::pictureBox20_Click);
 			// 
@@ -368,7 +378,7 @@ namespace BordgameDigitiser {
 			this->whiteRook1->Location = System::Drawing::Point(0, 1680);
 			this->whiteRook1->Name = L"whiteRook1";
 			this->whiteRook1->Size = System::Drawing::Size(240, 240);
-			this->whiteRook1->TabIndex = 18;
+			this->whiteRook1->TabIndex = 9;
 			this->whiteRook1->TabStop = false;
 			// 
 			// whiteRook2
@@ -379,7 +389,7 @@ namespace BordgameDigitiser {
 			this->whiteRook2->Location = System::Drawing::Point(1680, 1680);
 			this->whiteRook2->Name = L"whiteRook2";
 			this->whiteRook2->Size = System::Drawing::Size(240, 240);
-			this->whiteRook2->TabIndex = 23;
+			this->whiteRook2->TabIndex = 10;
 			this->whiteRook2->TabStop = false;
 			// 
 			// whiteBishop1
@@ -390,7 +400,7 @@ namespace BordgameDigitiser {
 			this->whiteBishop1->Location = System::Drawing::Point(480, 1680);
 			this->whiteBishop1->Name = L"whiteBishop1";
 			this->whiteBishop1->Size = System::Drawing::Size(240, 240);
-			this->whiteBishop1->TabIndex = 28;
+			this->whiteBishop1->TabIndex = 11;
 			this->whiteBishop1->TabStop = false;
 			// 
 			// whiteBishop2
@@ -401,7 +411,7 @@ namespace BordgameDigitiser {
 			this->whiteBishop2->Location = System::Drawing::Point(1200, 1680);
 			this->whiteBishop2->Name = L"whiteBishop2";
 			this->whiteBishop2->Size = System::Drawing::Size(240, 240);
-			this->whiteBishop2->TabIndex = 25;
+			this->whiteBishop2->TabIndex = 12;
 			this->whiteBishop2->TabStop = false;
 			// 
 			// whiteKnight1
@@ -412,7 +422,7 @@ namespace BordgameDigitiser {
 			this->whiteKnight1->Location = System::Drawing::Point(240, 1680);
 			this->whiteKnight1->Name = L"whiteKnight1";
 			this->whiteKnight1->Size = System::Drawing::Size(240, 240);
-			this->whiteKnight1->TabIndex = 17;
+			this->whiteKnight1->TabIndex = 13;
 			this->whiteKnight1->TabStop = false;
 			// 
 			// whiteKnight2
@@ -423,7 +433,7 @@ namespace BordgameDigitiser {
 			this->whiteKnight2->Location = System::Drawing::Point(1440, 1680);
 			this->whiteKnight2->Name = L"whiteKnight2";
 			this->whiteKnight2->Size = System::Drawing::Size(240, 240);
-			this->whiteKnight2->TabIndex = 24;
+			this->whiteKnight2->TabIndex = 14;
 			this->whiteKnight2->TabStop = false;
 			// 
 			// whiteQueen
@@ -434,7 +444,7 @@ namespace BordgameDigitiser {
 			this->whiteQueen->Location = System::Drawing::Point(720, 1680);
 			this->whiteQueen->Name = L"whiteQueen";
 			this->whiteQueen->Size = System::Drawing::Size(240, 240);
-			this->whiteQueen->TabIndex = 27;
+			this->whiteQueen->TabIndex = 15;
 			this->whiteQueen->TabStop = false;
 			// 
 			// whiteKing
@@ -445,7 +455,7 @@ namespace BordgameDigitiser {
 			this->whiteKing->Location = System::Drawing::Point(960, 1680);
 			this->whiteKing->Name = L"whiteKing";
 			this->whiteKing->Size = System::Drawing::Size(240, 240);
-			this->whiteKing->TabIndex = 26;
+			this->whiteKing->TabIndex = 16;
 			this->whiteKing->TabStop = false;
 			// 
 			// blackPawn1
@@ -456,7 +466,7 @@ namespace BordgameDigitiser {
 			this->blackPawn1->Location = System::Drawing::Point(0, 240);
 			this->blackPawn1->Name = L"blackPawn1";
 			this->blackPawn1->Size = System::Drawing::Size(240, 240);
-			this->blackPawn1->TabIndex = 6;
+			this->blackPawn1->TabIndex = 17;
 			this->blackPawn1->TabStop = false;
 			// 
 			// blackPawn2
@@ -467,7 +477,7 @@ namespace BordgameDigitiser {
 			this->blackPawn2->Location = System::Drawing::Point(240, 240);
 			this->blackPawn2->Name = L"blackPawn2";
 			this->blackPawn2->Size = System::Drawing::Size(240, 240);
-			this->blackPawn2->TabIndex = 5;
+			this->blackPawn2->TabIndex = 18;
 			this->blackPawn2->TabStop = false;
 			// 
 			// blackPawn3
@@ -478,7 +488,7 @@ namespace BordgameDigitiser {
 			this->blackPawn3->Location = System::Drawing::Point(480, 240);
 			this->blackPawn3->Name = L"blackPawn3";
 			this->blackPawn3->Size = System::Drawing::Size(240, 240);
-			this->blackPawn3->TabIndex = 4;
+			this->blackPawn3->TabIndex = 19;
 			this->blackPawn3->TabStop = false;
 			// 
 			// blackPawn4
@@ -489,7 +499,7 @@ namespace BordgameDigitiser {
 			this->blackPawn4->Location = System::Drawing::Point(720, 240);
 			this->blackPawn4->Name = L"blackPawn4";
 			this->blackPawn4->Size = System::Drawing::Size(240, 240);
-			this->blackPawn4->TabIndex = 3;
+			this->blackPawn4->TabIndex = 20;
 			this->blackPawn4->TabStop = false;
 			// 
 			// blackPawn5
@@ -500,7 +510,7 @@ namespace BordgameDigitiser {
 			this->blackPawn5->Location = System::Drawing::Point(960, 240);
 			this->blackPawn5->Name = L"blackPawn5";
 			this->blackPawn5->Size = System::Drawing::Size(240, 240);
-			this->blackPawn5->TabIndex = 16;
+			this->blackPawn5->TabIndex = 21;
 			this->blackPawn5->TabStop = false;
 			// 
 			// blackPawn6
@@ -511,7 +521,7 @@ namespace BordgameDigitiser {
 			this->blackPawn6->Location = System::Drawing::Point(1200, 240);
 			this->blackPawn6->Name = L"blackPawn6";
 			this->blackPawn6->Size = System::Drawing::Size(240, 240);
-			this->blackPawn6->TabIndex = 15;
+			this->blackPawn6->TabIndex = 22;
 			this->blackPawn6->TabStop = false;
 			// 
 			// blackPawn7
@@ -522,7 +532,7 @@ namespace BordgameDigitiser {
 			this->blackPawn7->Location = System::Drawing::Point(1440, 240);
 			this->blackPawn7->Name = L"blackPawn7";
 			this->blackPawn7->Size = System::Drawing::Size(240, 240);
-			this->blackPawn7->TabIndex = 14;
+			this->blackPawn7->TabIndex = 23;
 			this->blackPawn7->TabStop = false;
 			this->blackPawn7->Click += gcnew System::EventHandler(this, &Board::pictureBox14_Click);
 			// 
@@ -534,7 +544,7 @@ namespace BordgameDigitiser {
 			this->blackPawn8->Location = System::Drawing::Point(1680, 240);
 			this->blackPawn8->Name = L"blackPawn8";
 			this->blackPawn8->Size = System::Drawing::Size(240, 240);
-			this->blackPawn8->TabIndex = 13;
+			this->blackPawn8->TabIndex = 24;
 			this->blackPawn8->TabStop = false;
 			// 
 			// blackRook1
@@ -545,7 +555,7 @@ namespace BordgameDigitiser {
 			this->blackRook1->Location = System::Drawing::Point(0, 0);
 			this->blackRook1->Name = L"blackRook1";
 			this->blackRook1->Size = System::Drawing::Size(240, 240);
-			this->blackRook1->TabIndex = 2;
+			this->blackRook1->TabIndex = 25;
 			this->blackRook1->TabStop = false;
 			// 
 			// blackRook2
@@ -556,7 +566,7 @@ namespace BordgameDigitiser {
 			this->blackRook2->Location = System::Drawing::Point(1680, 0);
 			this->blackRook2->Name = L"blackRook2";
 			this->blackRook2->Size = System::Drawing::Size(240, 240);
-			this->blackRook2->TabIndex = 7;
+			this->blackRook2->TabIndex = 26;
 			this->blackRook2->TabStop = false;
 			// 
 			// blackKnight1
@@ -567,7 +577,7 @@ namespace BordgameDigitiser {
 			this->blackKnight1->Location = System::Drawing::Point(240, 0);
 			this->blackKnight1->Name = L"blackKnight1";
 			this->blackKnight1->Size = System::Drawing::Size(240, 240);
-			this->blackKnight1->TabIndex = 1;
+			this->blackKnight1->TabIndex = 27;
 			this->blackKnight1->TabStop = false;
 			// 
 			// blackKnight2
@@ -578,7 +588,7 @@ namespace BordgameDigitiser {
 			this->blackKnight2->Location = System::Drawing::Point(1440, 0);
 			this->blackKnight2->Name = L"blackKnight2";
 			this->blackKnight2->Size = System::Drawing::Size(240, 240);
-			this->blackKnight2->TabIndex = 8;
+			this->blackKnight2->TabIndex = 28;
 			this->blackKnight2->TabStop = false;
 			// 
 			// blackBishop1
@@ -589,7 +599,7 @@ namespace BordgameDigitiser {
 			this->blackBishop1->Location = System::Drawing::Point(480, 0);
 			this->blackBishop1->Name = L"blackBishop1";
 			this->blackBishop1->Size = System::Drawing::Size(240, 240);
-			this->blackBishop1->TabIndex = 12;
+			this->blackBishop1->TabIndex = 29;
 			this->blackBishop1->TabStop = false;
 			// 
 			// blackBishop2
@@ -600,7 +610,7 @@ namespace BordgameDigitiser {
 			this->blackBishop2->Location = System::Drawing::Point(1200, 0);
 			this->blackBishop2->Name = L"blackBishop2";
 			this->blackBishop2->Size = System::Drawing::Size(240, 240);
-			this->blackBishop2->TabIndex = 9;
+			this->blackBishop2->TabIndex = 30;
 			this->blackBishop2->TabStop = false;
 			// 
 			// blackQueen
@@ -611,7 +621,7 @@ namespace BordgameDigitiser {
 			this->blackQueen->Location = System::Drawing::Point(720, 0);
 			this->blackQueen->Name = L"blackQueen";
 			this->blackQueen->Size = System::Drawing::Size(240, 240);
-			this->blackQueen->TabIndex = 11;
+			this->blackQueen->TabIndex = 31;
 			this->blackQueen->TabStop = false;
 			// 
 			// blackKing
@@ -622,16 +632,17 @@ namespace BordgameDigitiser {
 			this->blackKing->Location = System::Drawing::Point(960, 0);
 			this->blackKing->Name = L"blackKing";
 			this->blackKing->Size = System::Drawing::Size(240, 240);
-			this->blackKing->TabIndex = 10;
+			this->blackKing->TabIndex = 32;
 			this->blackKing->TabStop = false;
 			// 
-			// gameLogPanel
+			// buttonPanel
 			// 
-			this->gameLogPanel->Controls->Add(this->gameLog);
-			this->gameLogPanel->Location = System::Drawing::Point(1980, 20);
-			this->gameLogPanel->Name = L"gameLogPanel";
-			this->gameLogPanel->Size = System::Drawing::Size(1240, 1430);
-			this->gameLogPanel->TabIndex = 1;
+			this->buttonPanel->Controls->Add(this->zurückButton);
+			this->buttonPanel->Controls->Add(this->nächsterZugButton);
+			this->buttonPanel->Location = System::Drawing::Point(1980, 1730);
+			this->buttonPanel->Name = L"buttonPanel";
+			this->buttonPanel->Size = System::Drawing::Size(1240, 210);
+			this->buttonPanel->TabIndex = 300;
 			// 
 			// gameLog
 			// 
@@ -642,22 +653,53 @@ namespace BordgameDigitiser {
 			this->gameLog->Location = System::Drawing::Point(0, 0);
 			this->gameLog->Name = L"gameLog";
 			this->gameLog->ScrollAlwaysVisible = true;
-			this->gameLog->Size = System::Drawing::Size(1240, 1430);
-			this->gameLog->TabIndex = 0;
+			this->gameLog->Size = System::Drawing::Size(1240, 1399);
+			this->gameLog->TabIndex = 101;
 			// 
-			// buttonPanel
+			// gameLogPanel
 			// 
-			this->buttonPanel->Location = System::Drawing::Point(1980, 1490);
-			this->buttonPanel->Name = L"buttonPanel";
-			this->buttonPanel->Size = System::Drawing::Size(1240, 450);
-			this->buttonPanel->TabIndex = 2;
+			this->gameLogPanel->Controls->Add(this->gameLog);
+			this->gameLogPanel->Location = System::Drawing::Point(1980, 20);
+			this->gameLogPanel->Name = L"gameLogPanel";
+			this->gameLogPanel->Size = System::Drawing::Size(1240, 1450);
+			this->gameLogPanel->TabIndex = 101;
+			// 
+			// nächsterZugButton
+			// 
+			this->nächsterZugButton->Font = (gcnew System::Drawing::Font(L"Microsoft JhengHei", 20, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->nächsterZugButton->Location = System::Drawing::Point(0, 0);
+			this->nächsterZugButton->Name = L"nächsterZugButton";
+			this->nächsterZugButton->Size = System::Drawing::Size(610, 210);
+			this->nächsterZugButton->TabIndex = 301;
+			this->nächsterZugButton->Text = L"Nächster Zug";
+			this->nächsterZugButton->UseVisualStyleBackColor = true;
+			// 
+			// panel1
+			// 
+			this->panel1->Location = System::Drawing::Point(1980, 1470);
+			this->panel1->Name = L"panel1";
+			this->panel1->Size = System::Drawing::Size(1240, 220);
+			this->panel1->TabIndex = 301;
+			// 
+			// zurückButton
+			// 
+			this->zurückButton->Font = (gcnew System::Drawing::Font(L"Microsoft JhengHei", 20, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->zurückButton->Location = System::Drawing::Point(630, 0);
+			this->zurückButton->Name = L"zurückButton";
+			this->zurückButton->Size = System::Drawing::Size(610, 210);
+			this->zurückButton->TabIndex = 302;
+			this->zurückButton->Text = L"Zurück zum Hauptmenü";
+			this->zurückButton->UseVisualStyleBackColor = true;
 			// 
 			// Board
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(12, 25);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->AutoSize = true;
-			this->ClientSize = System::Drawing::Size(2574, 2089);
+			this->ClientSize = System::Drawing::Size(3214, 2089);
+			this->Controls->Add(this->panel1);
 			this->Controls->Add(this->buttonPanel);
 			this->Controls->Add(this->gameLogPanel);
 			this->Controls->Add(this->chessBoardPanel);
@@ -667,6 +709,7 @@ namespace BordgameDigitiser {
 			this->Padding = System::Windows::Forms::Padding(20);
 			this->Text = L"Board";
 			this->WindowState = System::Windows::Forms::FormWindowState::Maximized;
+			this->Load += gcnew System::EventHandler(this, &Board::Board_Load);
 			this->chessBoardPanel->ResumeLayout(false);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->whitePawn1))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->whitePawn2))->EndInit();
@@ -700,6 +743,7 @@ namespace BordgameDigitiser {
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->blackBishop2))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->blackQueen))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->blackKing))->EndInit();
+			this->buttonPanel->ResumeLayout(false);
 			this->gameLogPanel->ResumeLayout(false);
 			this->ResumeLayout(false);
 
@@ -722,6 +766,8 @@ private: System::Void pictureBox19_Click(System::Object^  sender, System::EventA
 private: System::Void pictureBox20_Click(System::Object^  sender, System::EventArgs^  e) {
 	}
 private: System::Void pictureBox14_Click(System::Object^  sender, System::EventArgs^  e) {
+}
+private: System::Void Board_Load(System::Object^  sender, System::EventArgs^  e) {
 }
 };
 }
