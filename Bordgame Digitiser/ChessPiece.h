@@ -4,21 +4,17 @@
 public class ChessPiece
 {
 public:
-	ChessPiece();
+	ChessPiece(cv::Point2i pos,chessPieces type);
+	~ChessPiece();
 //setter
-	void setPos(cv::Point2i pos);
-	void setX();
-	void setY();
-
+	void setPos(cv::Point2i pos); //Sets the coordinates of the piece
 //getter
 	cv::Point2i getPos();
 	int getX();
 	int getY();
-	chessPieces getType();
+	chessPieces getType(); 
 private:
-	chessPieces type;
-	cv::Point_<int> position;
-
-
+	chessPieces type; //The type of the chesspiece
+	cv::Point2i coordinates; //The coordinates of the piece in the 2d vector
 };
 

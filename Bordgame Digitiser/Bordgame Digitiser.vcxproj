@@ -139,6 +139,7 @@
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="CameraIn.cpp" />
+    <ClCompile Include="ChessField.cpp" />
     <ClCompile Include="ChessPiece.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -146,6 +147,7 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="CameraIn.h" />
+    <ClInclude Include="ChessField.h" />
     <ClInclude Include="ChessPiece.h" />
     <ClInclude Include="CONSTANTS.h" />
   </ItemGroup>
