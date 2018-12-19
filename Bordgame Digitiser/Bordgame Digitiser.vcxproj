@@ -107,6 +107,8 @@
     <Link>
       <AdditionalDependencies>opencv_world343d.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\Microsoft Visual Studio\Library\opencv\build\x64\vc14\lib</AdditionalLibraryDirectories>
+      <EntryPointSymbol>Main</EntryPointSymbol>
+      <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -136,11 +138,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
+    <ClCompile Include="CameraIn.cpp" />
+    <ClCompile Include="ChessPiece.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="CameraIn.h" />
+    <ClInclude Include="ChessPiece.h" />
+    <ClInclude Include="CONSTANTS.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Board.resx">
