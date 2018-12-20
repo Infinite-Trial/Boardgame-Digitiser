@@ -5,13 +5,14 @@
 #pragma once
 #include "CONSTANTS.h"
 #include "opencv2/core/types.hpp"
+
 public class ChessPiece
 {
 public:
 	ChessPiece(cv::Point2i pos,chessPieces type);
 	~ChessPiece();
-//setter
-	void setPos(cv::Point2i pos); //Sets the coordinates of the piece
+//seter
+	void setPos(cv::Point2i pos); //Sets the virtual coordinates of the piece
 //getter
 	cv::Point2i getPos();//Gets the coordinates 
 	chessPieces getType(); //Gets the type
