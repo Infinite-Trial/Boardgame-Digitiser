@@ -1,3 +1,7 @@
+//Author:Gross
+//Description: 
+//
+
 #pragma once
 #include "CONSTANTS.h"
 #include "ChessField.h"

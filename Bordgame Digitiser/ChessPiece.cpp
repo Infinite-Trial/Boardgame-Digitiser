@@ -1,3 +1,5 @@
+//Author:Gross
+
 #include "ChessPiece.h"
 
 
