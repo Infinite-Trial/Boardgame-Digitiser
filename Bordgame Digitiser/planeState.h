@@ -14,9 +14,9 @@ public:
 	void setPieceAt(chessCoord x, int y);
 	void setPieceAt(cv::Point2i pos);
 	//methods
-	std::vector<cv::Point2i> difference(planeState reference); //returns the coordinates of the different fields
+	std::vector<cv::Point2i> difference(const planeState reference); //returns the coordinates of the different fields
 	//operator
-	bool operator==(const planeState& reference) const;
+	bool equals(const planeState reference);
 private:
 	std::vector<std::vector<pieceTypes>> state;
 };

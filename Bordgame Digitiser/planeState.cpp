@@ -21,13 +21,13 @@ pieceTypes planeState::getPieceAt(cv::Point2i pos)
 	return state[pos.x][pos.y];
 }
 
-/*bool planeState::operator==(const planeState &reference) const 
+/*bool planeState::equals(const planeState reference) 
 {
 	for (int x = 0; x < 7; x++)
 	{
 		for (int y = A; y < H; y++)
 		{
-			if (this.getPieceAt(x,y) == reference.getPieceAt(x, y)) {
+			if (this->getPieceAt(x,y) == reference) {
 				return false;
 			}
 		}
