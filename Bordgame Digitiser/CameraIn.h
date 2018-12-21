@@ -5,21 +5,22 @@
 #pragma once
 #include "CONSTANTS.h"
 #include "ChessField.h"
+#include "ChessPiece.h"
 #include <vector>
 public class CameraIn
 {
 public:
 	CameraIn();
-	std::vector<int> getBoardStatePlane();
-	std::vector<chessPieces> getBoardStateChain();
-	std::vector<int, int> chainToPlane(std::vector<chessPieces> pieceChain);
-	std::vector<chessPieces> planeToChain(std::vector<int, int>);
+	std::vector<std::vector<pieceTypes>> getBoardStatePlane();
+	std::vector<ChessPiece> getBoardStateChain();
+	std::vector<std::vector<pieceTypes>> chainToPlane(std::vector<pieceTypes> pieceChain);
+	std::vector<ChessPiece> planeToChain(std::vector<std::vector<int>>);
 private:
 	//properties
-	std::vector<chessPieces> detectedPieces;
+	std::vector<pieceTypes> detectedPieces;
 	std::vector<ChessField> detectedFields;
 	//methods
-	std::vector<int> getPieceRecs(chessPieces piece);
+	std::vector<cv::Rect> getPieceRecs(pieceTypes piece);
 	std::vector<ChessField> getFielsRecs();
 };
 
