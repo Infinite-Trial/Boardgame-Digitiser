@@ -1,5 +1,5 @@
 //Author: Gross
-//Discription:
+//Discription: Helps to savely handle a 2D vector to store a boardstate
 
 #pragma once
 #include "opencv2/core/types.hpp"
@@ -19,8 +19,8 @@ public:
 	void setPieceAt(cv::Point2i pos, pieceTypes dif);
 	//methods
 	std::vector<cv::Point2i> difference(const PlaneState reference); //returns the coordinates of the different fields
-	bool equals(PlaneState reference);
-	void reset();
+	bool equals(PlaneState reference); //compares two boards
+	void reset(); //resets the board
 private:
 	std::vector<std::vector<pieceTypes>> state;
 };
