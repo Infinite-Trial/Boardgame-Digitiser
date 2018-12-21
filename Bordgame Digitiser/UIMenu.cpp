@@ -1,4 +1,4 @@
-#include "Board.h"
+#include "UIMenu.h"
 
 using namespace System;
 using namespace System::Windows::Forms;
@@ -18,10 +18,5 @@ using namespace std;
 void Main() {
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false);
-	BordgameDigitiser::Board form;
+	BordgameDigitiser::UIMenu form;
 	Application::Run(%form);
-
-
-
-	
-}

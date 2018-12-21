@@ -137,16 +137,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Board.cpp" />
+    <ClCompile Include="UIBoard.cpp" />
+    <ClCompile Include="UIMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Board.h">
+    <ClInclude Include="UIBoard.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="UIMenu.h">
       <FileType>CppForm</FileType>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Board.resx">
-      <DependentUpon>Board.h</DependentUpon>
+    <EmbeddedResource Include="UIBoard.resx">
+      <DependentUpon>UIBoard.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

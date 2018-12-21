@@ -14,12 +14,12 @@ namespace BordgameDigitiser {
 	using namespace std;
 
 	/// <summary>
-	/// Summary for Board
+	/// Summary for UIBoard
 	/// </summary>
-	public ref class Board : public System::Windows::Forms::Form
+	public ref class UIBoard : public System::Windows::Forms::Form
 	{
 	public:
-		Board(void)
+		UIBoard(void)
 		{
 			InitializeComponent();
 			//vector <string> gameLogText;
@@ -34,7 +34,7 @@ namespace BordgameDigitiser {
 		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
-		~Board()
+		~UIBoard()
 		{
 			if (components)
 			{
@@ -60,22 +60,12 @@ namespace BordgameDigitiser {
 	private: System::Windows::Forms::Panel^  gameLogPanel;
 
 	private: System::Windows::Forms::PictureBox^  blackKnight1;
-
 	private: System::Windows::Forms::PictureBox^  blackRook1;
 	private: System::Windows::Forms::PictureBox^  blackPawn5;
 	private: System::Windows::Forms::PictureBox^  blackPawn6;
 	private: System::Windows::Forms::PictureBox^  blackPawn7;
 	private: System::Windows::Forms::PictureBox^  blackPawn8;
-
-
-
-
-
-
-
-
 	private: System::Windows::Forms::PictureBox^  blackBishop1;
-
 	private: System::Windows::Forms::PictureBox^  blackQueen;
 	private: System::Windows::Forms::PictureBox^  blackKing;
 	private: System::Windows::Forms::PictureBox^  blackBishop2;
@@ -95,38 +85,21 @@ namespace BordgameDigitiser {
 	private: System::Windows::Forms::PictureBox^  whiteBishop2;
 	private: System::Windows::Forms::PictureBox^  whiteKnight2;
 	private: System::Windows::Forms::PictureBox^  whiteRook2;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	private: System::Windows::Forms::PictureBox^  whitePawn1;
 	private: System::Windows::Forms::PictureBox^  whitePawn2;
 	private: System::Windows::Forms::PictureBox^  whitePawn3;
 	private: System::Windows::Forms::PictureBox^  whitePawn4;
 	private: System::Windows::Forms::PictureBox^  whiteRook1;
 	private: System::Windows::Forms::PictureBox^  whiteKnight1;
-private: System::Windows::Forms::Button^  nächsterZugButton;
 
-private: System::Windows::Forms::Button^  zurückButton;
+	private: System::Windows::Forms::Button^  nächsterZugButton;
+	private: System::Windows::Forms::Button^  zurückButton;
+	private: System::Windows::Forms::Panel^  statBlockPanel;
+	private: System::Windows::Forms::MaskedTextBox^  maskedTextBox1;
 
 
-private: System::Windows::Forms::Panel^  panel1;
+
+
 
 
 
@@ -155,7 +128,7 @@ private: System::Windows::Forms::Panel^  panel1;
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(Board::typeid));
+			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(UIBoard::typeid));
 			this->chessBoardPanel = (gcnew System::Windows::Forms::Panel());
 			this->whitePawn1 = (gcnew System::Windows::Forms::PictureBox());
 			this->whitePawn2 = (gcnew System::Windows::Forms::PictureBox());
@@ -190,12 +163,13 @@ private: System::Windows::Forms::Panel^  panel1;
 			this->blackQueen = (gcnew System::Windows::Forms::PictureBox());
 			this->blackKing = (gcnew System::Windows::Forms::PictureBox());
 			this->buttonPanel = (gcnew System::Windows::Forms::Panel());
+			this->zurückButton = (gcnew System::Windows::Forms::Button());
+			this->nächsterZugButton = (gcnew System::Windows::Forms::Button());
 			this->backgroundWorker1 = (gcnew System::ComponentModel::BackgroundWorker());
 			this->gameLog = (gcnew System::Windows::Forms::ListBox());
 			this->gameLogPanel = (gcnew System::Windows::Forms::Panel());
-			this->nächsterZugButton = (gcnew System::Windows::Forms::Button());
-			this->panel1 = (gcnew System::Windows::Forms::Panel());
-			this->zurückButton = (gcnew System::Windows::Forms::Button());
+			this->statBlockPanel = (gcnew System::Windows::Forms::Panel());
+			this->maskedTextBox1 = (gcnew System::Windows::Forms::MaskedTextBox());
 			this->chessBoardPanel->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->whitePawn1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->whitePawn2))->BeginInit();
@@ -284,7 +258,7 @@ private: System::Windows::Forms::Panel^  panel1;
 			this->whitePawn1->Size = System::Drawing::Size(240, 240);
 			this->whitePawn1->TabIndex = 1;
 			this->whitePawn1->TabStop = false;
-			this->whitePawn1->Click += gcnew System::EventHandler(this, &Board::pictureBox27_Click);
+			this->whitePawn1->Click += gcnew System::EventHandler(this, &UIBoard::pictureBox27_Click);
 			// 
 			// whitePawn2
 			// 
@@ -296,7 +270,7 @@ private: System::Windows::Forms::Panel^  panel1;
 			this->whitePawn2->Size = System::Drawing::Size(240, 240);
 			this->whitePawn2->TabIndex = 2;
 			this->whitePawn2->TabStop = false;
-			this->whitePawn2->Click += gcnew System::EventHandler(this, &Board::pictureBox28_Click);
+			this->whitePawn2->Click += gcnew System::EventHandler(this, &UIBoard::pictureBox28_Click);
 			// 
 			// whitePawn3
 			// 
@@ -308,7 +282,7 @@ private: System::Windows::Forms::Panel^  panel1;
 			this->whitePawn3->Size = System::Drawing::Size(240, 240);
 			this->whitePawn3->TabIndex = 3;
 			this->whitePawn3->TabStop = false;
-			this->whitePawn3->Click += gcnew System::EventHandler(this, &Board::pictureBox29_Click);
+			this->whitePawn3->Click += gcnew System::EventHandler(this, &UIBoard::pictureBox29_Click);
 			// 
 			// whitePawn4
 			// 
@@ -320,7 +294,7 @@ private: System::Windows::Forms::Panel^  panel1;
 			this->whitePawn4->Size = System::Drawing::Size(240, 240);
 			this->whitePawn4->TabIndex = 4;
 			this->whitePawn4->TabStop = false;
-			this->whitePawn4->Click += gcnew System::EventHandler(this, &Board::pictureBox30_Click);
+			this->whitePawn4->Click += gcnew System::EventHandler(this, &UIBoard::pictureBox30_Click);
 			// 
 			// whitePawn5
 			// 
@@ -332,7 +306,7 @@ private: System::Windows::Forms::Panel^  panel1;
 			this->whitePawn5->Size = System::Drawing::Size(240, 240);
 			this->whitePawn5->TabIndex = 5;
 			this->whitePawn5->TabStop = false;
-			this->whitePawn5->Click += gcnew System::EventHandler(this, &Board::pictureBox17_Click);
+			this->whitePawn5->Click += gcnew System::EventHandler(this, &UIBoard::pictureBox17_Click);
 			// 
 			// whitePawn6
 			// 
@@ -344,7 +318,7 @@ private: System::Windows::Forms::Panel^  panel1;
 			this->whitePawn6->Size = System::Drawing::Size(240, 240);
 			this->whitePawn6->TabIndex = 6;
 			this->whitePawn6->TabStop = false;
-			this->whitePawn6->Click += gcnew System::EventHandler(this, &Board::pictureBox18_Click);
+			this->whitePawn6->Click += gcnew System::EventHandler(this, &UIBoard::pictureBox18_Click);
 			// 
 			// whitePawn7
 			// 
@@ -356,7 +330,7 @@ private: System::Windows::Forms::Panel^  panel1;
 			this->whitePawn7->Size = System::Drawing::Size(240, 240);
 			this->whitePawn7->TabIndex = 7;
 			this->whitePawn7->TabStop = false;
-			this->whitePawn7->Click += gcnew System::EventHandler(this, &Board::pictureBox19_Click);
+			this->whitePawn7->Click += gcnew System::EventHandler(this, &UIBoard::pictureBox19_Click);
 			// 
 			// whitePawn8
 			// 
@@ -368,7 +342,7 @@ private: System::Windows::Forms::Panel^  panel1;
 			this->whitePawn8->Size = System::Drawing::Size(240, 240);
 			this->whitePawn8->TabIndex = 8;
 			this->whitePawn8->TabStop = false;
-			this->whitePawn8->Click += gcnew System::EventHandler(this, &Board::pictureBox20_Click);
+			this->whitePawn8->Click += gcnew System::EventHandler(this, &UIBoard::pictureBox20_Click);
 			// 
 			// whiteRook1
 			// 
@@ -534,7 +508,7 @@ private: System::Windows::Forms::Panel^  panel1;
 			this->blackPawn7->Size = System::Drawing::Size(240, 240);
 			this->blackPawn7->TabIndex = 23;
 			this->blackPawn7->TabStop = false;
-			this->blackPawn7->Click += gcnew System::EventHandler(this, &Board::pictureBox14_Click);
+			this->blackPawn7->Click += gcnew System::EventHandler(this, &UIBoard::pictureBox14_Click);
 			// 
 			// blackPawn8
 			// 
@@ -644,6 +618,28 @@ private: System::Windows::Forms::Panel^  panel1;
 			this->buttonPanel->Size = System::Drawing::Size(1240, 210);
 			this->buttonPanel->TabIndex = 300;
 			// 
+			// zurückButton
+			// 
+			this->zurückButton->Font = (gcnew System::Drawing::Font(L"Microsoft JhengHei", 20, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->zurückButton->Location = System::Drawing::Point(630, 0);
+			this->zurückButton->Name = L"zurückButton";
+			this->zurückButton->Size = System::Drawing::Size(610, 210);
+			this->zurückButton->TabIndex = 302;
+			this->zurückButton->Text = L"Zurück zum Hauptmenü";
+			this->zurückButton->UseVisualStyleBackColor = true;
+			// 
+			// nächsterZugButton
+			// 
+			this->nächsterZugButton->Font = (gcnew System::Drawing::Font(L"Microsoft JhengHei", 20, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->nächsterZugButton->Location = System::Drawing::Point(0, 0);
+			this->nächsterZugButton->Name = L"nächsterZugButton";
+			this->nächsterZugButton->Size = System::Drawing::Size(610, 210);
+			this->nächsterZugButton->TabIndex = 301;
+			this->nächsterZugButton->Text = L"Nächster Zug";
+			this->nächsterZugButton->UseVisualStyleBackColor = true;
+			// 
 			// gameLog
 			// 
 			this->gameLog->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.125F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
@@ -664,34 +660,19 @@ private: System::Windows::Forms::Panel^  panel1;
 			this->gameLogPanel->Size = System::Drawing::Size(1240, 1450);
 			this->gameLogPanel->TabIndex = 101;
 			// 
-			// nächsterZugButton
+			// statBlockPanel
 			// 
-			this->nächsterZugButton->Font = (gcnew System::Drawing::Font(L"Microsoft JhengHei", 20, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->nächsterZugButton->Location = System::Drawing::Point(0, 0);
-			this->nächsterZugButton->Name = L"nächsterZugButton";
-			this->nächsterZugButton->Size = System::Drawing::Size(610, 210);
-			this->nächsterZugButton->TabIndex = 301;
-			this->nächsterZugButton->Text = L"Nächster Zug";
-			this->nächsterZugButton->UseVisualStyleBackColor = true;
+			this->statBlockPanel->Location = System::Drawing::Point(1980, 1470);
+			this->statBlockPanel->Name = L"statBlockPanel";
+			this->statBlockPanel->Size = System::Drawing::Size(1240, 220);
+			this->statBlockPanel->TabIndex = 200;
 			// 
-			// panel1
+			// maskedTextBox1
 			// 
-			this->panel1->Location = System::Drawing::Point(1980, 1470);
-			this->panel1->Name = L"panel1";
-			this->panel1->Size = System::Drawing::Size(1240, 220);
-			this->panel1->TabIndex = 301;
-			// 
-			// zurückButton
-			// 
-			this->zurückButton->Font = (gcnew System::Drawing::Font(L"Microsoft JhengHei", 20, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->zurückButton->Location = System::Drawing::Point(630, 0);
-			this->zurückButton->Name = L"zurückButton";
-			this->zurückButton->Size = System::Drawing::Size(610, 210);
-			this->zurückButton->TabIndex = 302;
-			this->zurückButton->Text = L"Zurück zum Hauptmenü";
-			this->zurückButton->UseVisualStyleBackColor = true;
+			this->maskedTextBox1->Location = System::Drawing::Point(0, 0);
+			this->maskedTextBox1->Name = L"maskedTextBox1";
+			this->maskedTextBox1->Size = System::Drawing::Size(100, 31);
+			this->maskedTextBox1->TabIndex = 302;
 			// 
 			// Board
 			// 
@@ -699,7 +680,8 @@ private: System::Windows::Forms::Panel^  panel1;
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->AutoSize = true;
 			this->ClientSize = System::Drawing::Size(3214, 2089);
-			this->Controls->Add(this->panel1);
+			this->Controls->Add(this->maskedTextBox1);
+			this->Controls->Add(this->statBlockPanel);
 			this->Controls->Add(this->buttonPanel);
 			this->Controls->Add(this->gameLogPanel);
 			this->Controls->Add(this->chessBoardPanel);
@@ -709,7 +691,7 @@ private: System::Windows::Forms::Panel^  panel1;
 			this->Padding = System::Windows::Forms::Padding(20);
 			this->Text = L"Board";
 			this->WindowState = System::Windows::Forms::FormWindowState::Maximized;
-			this->Load += gcnew System::EventHandler(this, &Board::Board_Load);
+			this->Load += gcnew System::EventHandler(this, &UIBoard::Board_Load);
 			this->chessBoardPanel->ResumeLayout(false);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->whitePawn1))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->whitePawn2))->EndInit();
@@ -746,28 +728,29 @@ private: System::Windows::Forms::Panel^  panel1;
 			this->buttonPanel->ResumeLayout(false);
 			this->gameLogPanel->ResumeLayout(false);
 			this->ResumeLayout(false);
+			this->PerformLayout();
 
 		}
 #pragma endregion
 	private: System::Void pictureBox27_Click(System::Object^  sender, System::EventArgs^  e) {
 	}
-private: System::Void pictureBox28_Click(System::Object^  sender, System::EventArgs^  e) {
+	private: System::Void pictureBox28_Click(System::Object^  sender, System::EventArgs^  e) {
 	}
-private: System::Void pictureBox29_Click(System::Object^  sender, System::EventArgs^  e) {
+	private: System::Void pictureBox29_Click(System::Object^  sender, System::EventArgs^  e) {
 	}
-private: System::Void pictureBox30_Click(System::Object^  sender, System::EventArgs^  e) {
+	private: System::Void pictureBox30_Click(System::Object^  sender, System::EventArgs^  e) {
 	}
-private: System::Void pictureBox17_Click(System::Object^  sender, System::EventArgs^  e) {
+	private: System::Void pictureBox17_Click(System::Object^  sender, System::EventArgs^  e) {
 	}
-private: System::Void pictureBox18_Click(System::Object^  sender, System::EventArgs^  e) {
+	private: System::Void pictureBox18_Click(System::Object^  sender, System::EventArgs^  e) {
 	}
-private: System::Void pictureBox19_Click(System::Object^  sender, System::EventArgs^  e) {
+	private: System::Void pictureBox19_Click(System::Object^  sender, System::EventArgs^  e) {
 	}
-private: System::Void pictureBox20_Click(System::Object^  sender, System::EventArgs^  e) {
+	private: System::Void pictureBox20_Click(System::Object^  sender, System::EventArgs^  e) {
 	}
-private: System::Void pictureBox14_Click(System::Object^  sender, System::EventArgs^  e) {
-}
-private: System::Void Board_Load(System::Object^  sender, System::EventArgs^  e) {
-}
-};
+	private: System::Void pictureBox14_Click(System::Object^  sender, System::EventArgs^  e) {
+	}
+	private: System::Void Board_Load(System::Object^  sender, System::EventArgs^  e) {
+	}
+	};
 }
