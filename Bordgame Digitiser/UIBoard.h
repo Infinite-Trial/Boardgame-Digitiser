@@ -95,7 +95,7 @@ namespace BordgameDigitiser {
 	private: System::Windows::Forms::Button^  nächsterZugButton;
 	private: System::Windows::Forms::Button^  zurückButton;
 	private: System::Windows::Forms::Panel^  statBlockPanel;
-	private: System::Windows::Forms::MaskedTextBox^  maskedTextBox1;
+
 
 
 
@@ -169,7 +169,6 @@ namespace BordgameDigitiser {
 			this->gameLog = (gcnew System::Windows::Forms::ListBox());
 			this->gameLogPanel = (gcnew System::Windows::Forms::Panel());
 			this->statBlockPanel = (gcnew System::Windows::Forms::Panel());
-			this->maskedTextBox1 = (gcnew System::Windows::Forms::MaskedTextBox());
 			this->chessBoardPanel->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->whitePawn1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->whitePawn2))->BeginInit();
@@ -667,27 +666,19 @@ namespace BordgameDigitiser {
 			this->statBlockPanel->Size = System::Drawing::Size(1240, 220);
 			this->statBlockPanel->TabIndex = 200;
 			// 
-			// maskedTextBox1
-			// 
-			this->maskedTextBox1->Location = System::Drawing::Point(0, 0);
-			this->maskedTextBox1->Name = L"maskedTextBox1";
-			this->maskedTextBox1->Size = System::Drawing::Size(100, 31);
-			this->maskedTextBox1->TabIndex = 302;
-			// 
-			// Board
+			// UIBoard
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(12, 25);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->AutoSize = true;
 			this->ClientSize = System::Drawing::Size(3214, 2089);
-			this->Controls->Add(this->maskedTextBox1);
 			this->Controls->Add(this->statBlockPanel);
 			this->Controls->Add(this->buttonPanel);
 			this->Controls->Add(this->gameLogPanel);
 			this->Controls->Add(this->chessBoardPanel);
 			this->Margin = System::Windows::Forms::Padding(6);
 			this->MinimumSize = System::Drawing::Size(1851, 1414);
-			this->Name = L"Board";
+			this->Name = L"UIBoard";
 			this->Padding = System::Windows::Forms::Padding(20);
 			this->Text = L"Board";
 			this->WindowState = System::Windows::Forms::FormWindowState::Maximized;
@@ -728,7 +719,6 @@ namespace BordgameDigitiser {
 			this->buttonPanel->ResumeLayout(false);
 			this->gameLogPanel->ResumeLayout(false);
 			this->ResumeLayout(false);
-			this->PerformLayout();
 
 		}
 #pragma endregion
