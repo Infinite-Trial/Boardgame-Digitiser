@@ -102,11 +102,11 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Program Files (x86)\Microsoft Visual Studio\Library\opencv\build\include;C:\Users\FelixGross\source\repos\opencv\build\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\mario\Documents\OpenCV\opencv\build\include;C:\Program Files (x86)\Microsoft Visual Studio\Library\opencv\build\include;C:\Users\FelixGross\source\repos\opencv\build\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>opencv_world343d.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Program Files (x86)\Microsoft Visual Studio\Library\opencv\build\x64\vc14\lib;C:\Users\FelixGross\source\repos\opencv\build\x64\vc14\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\mario\Documents\OpenCV\opencv\build\x64\vc14\lib;C:\Program Files (x86)\Microsoft Visual Studio\Library\opencv\build\x64\vc14\lib;C:\Users\FelixGross\source\repos\opencv\build\x64\vc14\lib</AdditionalLibraryDirectories>
       <EntryPointSymbol>Main</EntryPointSymbol>
       <SubSystem>Windows</SubSystem>
     </Link>
