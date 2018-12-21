@@ -9,8 +9,9 @@ class Board
 public:
 	Board();
 	~Board();
-	void synchronizeVirtual(std::vector<std::vector<ChessPiece>> Field);
+	void synchronizeVirtual(std::vector<std::vector<pieceTypes>> Field);
 
-
+private:
+	
 };
 
