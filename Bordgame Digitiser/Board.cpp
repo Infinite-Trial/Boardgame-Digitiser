@@ -7,9 +7,9 @@ Board::Board()
 	
 }
 
-void Board::synchronizeVirtual(std::vector<std::vector<pieceTypes>> Field)
+void Board::synchronizeVirtual()
 {
-	
+	//this->location = currentState.difference(previousState); needs improving
 }
 
 

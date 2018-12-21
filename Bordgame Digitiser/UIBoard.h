@@ -3,6 +3,10 @@
 
 #include <iostream>
 #include <ctype.h>
+#include "PlaneState.h"
+#include <vector>
+#include <list>
+
 namespace BordgameDigitiser {
 
 	using namespace System;
@@ -22,13 +26,178 @@ namespace BordgameDigitiser {
 		UIBoard(void)
 		{
 			InitializeComponent();
-			//vector <string> gameLogText;
-			// string gameLogText[200];
-			//std::string iCallBullshit;
 			for (int i = 0; i < 200; i++) {
 				gameLog->Items->Add(i);
 			}
+
+
 		}
+
+		
+		void setLocation(pieceTypes pieceType, int pieceNumber, Point location) {
+			
+			switch (pieceType)
+			{
+			case BB:
+				switch (pieceNumber)
+				{
+				case 1:
+					
+					break;
+				case 2:
+
+					break;
+				default:
+					break;
+				}
+				break;
+			case BK:
+
+			case BN:
+				switch (pieceNumber)
+				{
+				case 1:
+
+					break;
+				case 2:
+
+					break;
+				default:
+					break;
+				}
+				break;
+
+			case BP:
+				switch (pieceNumber)
+				{
+				case 1:
+
+					break;
+				case 2:
+
+					break;
+				case 3:
+
+					break;
+				case 4:
+
+					break;
+				case 5:
+
+					break;
+				case 6:
+
+					break;
+				case 7:
+
+					break;
+				case 8:
+
+					break;
+				default:
+					break;
+				}
+				break;
+
+			case BQ:
+
+			case BR:
+				switch (pieceNumber)
+				{
+				case 1:
+
+					break;
+				case 2:
+
+					break;
+				default:
+					break;
+				}
+				break;
+
+			case WB:
+				switch (pieceNumber)
+				{
+				case 1:
+
+					break;
+				case 2:
+
+					break;
+				default:
+					break;
+				}
+				break;
+
+			case WK:
+
+			case WN:
+				switch (pieceNumber)
+				{
+				case 1:
+
+					break;
+				case 2:
+
+					break;
+				default:
+					break;
+				}
+				break;
+
+			case WP:
+				switch (pieceNumber)
+				{
+				case 1:
+					this->whitePawn1->Location = location;
+					break;
+				case 2:
+					this->whitePawn2->Location = location;
+					break;
+				case 3:
+					this->whitePawn3->Location = location;
+					break;
+				case 4:
+					this->whitePawn4->Location = location;
+					break;
+				case 5:
+					this->whitePawn5->Location = location;
+					break;
+				case 6:
+					this->whitePawn6->Location = location;
+					break;
+				case 7:
+					this->whitePawn7->Location = location;
+					break;
+				case 8:
+					this->whitePawn8->Location = location;
+					break;
+				default:
+					break;
+				}
+				break;
+
+			case WQ:
+
+			case WR:
+				switch (pieceNumber)
+				{
+				case 1:
+
+					break;
+				case 2:
+
+					break;
+				default:
+					break;
+				}
+				break;
+
+			default:
+				break;
+			}
+	}
+	
 
 	protected:
 		/// <summary>
@@ -42,18 +211,7 @@ namespace BordgameDigitiser {
 			}
 		}
 	private: System::Windows::Forms::Panel^  chessBoardPanel;
-	protected:
-
 	private: System::Windows::Forms::Panel^  buttonPanel;
-	protected:
-
-	protected:
-
-
-
-
-
-
 
 	private: System::ComponentModel::BackgroundWorker^  backgroundWorker1;
 	private: System::Windows::Forms::ListBox^  gameLog;
@@ -721,6 +879,7 @@ namespace BordgameDigitiser {
 			this->ResumeLayout(false);
 
 		}
+		
 #pragma endregion
 	private: System::Void pictureBox27_Click(System::Object^  sender, System::EventArgs^  e) {
 	}
@@ -743,4 +902,6 @@ namespace BordgameDigitiser {
 	private: System::Void Board_Load(System::Object^  sender, System::EventArgs^  e) {
 	}
 	};
+
+	
 }

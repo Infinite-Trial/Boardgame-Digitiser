@@ -1,27 +1,27 @@
-#include "planeState.h"
+#include "PlaneState.h"
 
 
 
-planeState::planeState()
+PlaneState::PlaneState()
 {
 }
 
 
-planeState::~planeState()
+PlaneState::~PlaneState()
 {
 }
 
-pieceTypes planeState::getPieceAt(int x, int y)
+pieceTypes PlaneState::getPieceAt(int x, int y)
 {
 	return state[x][y];
 }
 
-pieceTypes planeState::getPieceAt(cv::Point2i pos)
+pieceTypes PlaneState::getPieceAt(cv::Point2i pos)
 {
 	return state[pos.x][pos.y];
 }
 
-/*bool planeState::equals(const planeState reference) 
+/*bool PlaneState::equals(const PlaneState reference) 
 {
 	for (int x = 0; x < 7; x++)
 	{

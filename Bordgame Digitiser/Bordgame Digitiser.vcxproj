@@ -143,7 +143,7 @@
     <ClCompile Include="CameraIn.cpp" />
     <ClCompile Include="ChessField.cpp" />
     <ClCompile Include="ChessPiece.cpp" />
-    <ClCompile Include="planeState.cpp" />
+    <ClCompile Include="PlaneState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h" />
@@ -157,7 +157,7 @@
     <ClInclude Include="ChessField.h" />
     <ClInclude Include="ChessPiece.h" />
     <ClInclude Include="CONSTANTS.h" />
-    <ClInclude Include="planeState.h" />
+    <ClInclude Include="PlaneState.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="UIBoard.resx">

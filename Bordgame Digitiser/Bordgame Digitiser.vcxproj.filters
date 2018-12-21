@@ -36,7 +36,7 @@
     <ClInclude Include="ChessField.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="planeState.h">
+    <ClInclude Include="PlaneState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -64,7 +64,7 @@
     <ClCompile Include="ChessField.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="planeState.cpp">
+    <ClCompile Include="PlaneState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
