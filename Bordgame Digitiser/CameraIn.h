@@ -12,7 +12,6 @@ public class CameraIn
 public:
 	CameraIn();
 	std::vector<std::vector<pieceTypes>> getBoardStatePlane();
-	std::vector<ChessPiece> getBoardStateChain();
 	std::vector<std::vector<pieceTypes>> chainToPlane(std::vector<pieceTypes> pieceChain);
 	std::vector<ChessPiece> planeToChain(std::vector<std::vector<int>>);
 private:

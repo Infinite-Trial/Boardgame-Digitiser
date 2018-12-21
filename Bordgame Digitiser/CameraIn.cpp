@@ -9,6 +9,12 @@ CameraIn::CameraIn()
 
 std::vector<std::vector<pieceTypes>> CameraIn::getBoardStatePlane()
 {
+	std::vector<std::vector<pieceTypes>> currentState = {{WR,WP,NP,NP,NP,NP,BP,BR},
+														{BP,BP,BP,BP,BP,BP,BP,BP},
+														{NP,NP,NP,NP,NP,NP,NP,NP} };
+
+
+
 	return std::vector<std::vector<pieceTypes>>();
 }
 /*

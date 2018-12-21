@@ -30,6 +30,9 @@
     <ClInclude Include="ChessField.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="planeState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Board.cpp">
@@ -42,6 +45,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ChessField.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="planeState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
