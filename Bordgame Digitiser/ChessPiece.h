@@ -9,15 +9,15 @@
 public class ChessPiece
 {
 public:
-	ChessPiece(cv::Point2i pos,chessPieces type);
+	ChessPiece(cv::Point2i pos,pieceTypes type);
 	~ChessPiece();
 //seter
 	void setPos(cv::Point2i pos); //Sets the virtual coordinates of the piece
 //getter
 	cv::Point2i getPos();//Gets the coordinates 
-	chessPieces getType(); //Gets the type
+	pieceTypes getType(); //Gets the type
 private:
-	chessPieces type; //The type of the chesspiece
+	pieceTypes type; //The type of the chesspiece
 	cv::Point2i coordinates; //The coordinates of the piece in the 2d vector
 };
 

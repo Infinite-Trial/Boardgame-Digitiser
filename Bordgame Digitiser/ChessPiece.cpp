@@ -2,7 +2,7 @@
 
 #include "ChessPiece.h"
 
-ChessPiece::ChessPiece(cv::Point2i pos, chessPieces type)
+ChessPiece::ChessPiece(cv::Point2i pos, pieceTypes type)
 {
 	this->coordinates = pos;
 	this->type = type;
@@ -22,7 +22,7 @@ cv::Point2i ChessPiece::getPos()
 	return coordinates;
 }
 
-chessPieces ChessPiece::getType()
+pieceTypes ChessPiece::getType()
 {
 	return type;
 }

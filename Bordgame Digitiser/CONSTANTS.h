@@ -1,4 +1,4 @@
 #pragma once
-enum chessPieces { BB, BK, BN, BP, BQ, BR, WB, WK, WN, WP, WQ, WR };
+enum pieceTypes { BB, BK, BN, BP, BQ, BR, WB, WK, WN, WP, WQ, WR };
 enum chessCoord { A, B, C, D, E, F, G, H };
-int NUMBER_OF_PIECE_TYPES = 12;
+const int NUMBER_OF_PIECE_TYPES = 12;

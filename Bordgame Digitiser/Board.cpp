@@ -20,8 +20,4 @@ void Main() {
 	Application::SetCompatibleTextRenderingDefault(false);
 	BordgameDigitiser::Board form;
 	Application::Run(%form);
-
-
-
-	
 }
