@@ -16,7 +16,7 @@ public:
 	//methods
 	std::vector<cv::Point2i> difference(const planeState reference); //returns the coordinates of the different fields
 	//operator
-	bool equals(const planeState reference);
+	bool equals(const planeState& reference);
 private:
 	std::vector<std::vector<pieceTypes>> state;
 };
