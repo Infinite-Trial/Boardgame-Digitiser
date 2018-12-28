@@ -163,6 +163,9 @@
     <EmbeddedResource Include="UIBoard.resx">
       <DependentUpon>UIBoard.h</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UIMenu.resx">
+      <DependentUpon>UIMenu.h</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

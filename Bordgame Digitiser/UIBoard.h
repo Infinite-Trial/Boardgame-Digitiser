@@ -6,6 +6,7 @@
 #include "PlaneState.h"
 #include <vector>
 #include <list>
+#include "UIMenu.h"
 
 namespace BordgameDigitiser {
 
@@ -33,8 +34,8 @@ namespace BordgameDigitiser {
 
 		}
 
-		
-		void setLocation(pieceTypes pieceType, int pieceNumber, Point location) {
+				
+		void setLocation(pieceTypes pieceType, int pieceNumber, System::Drawing::Point location) {
 			
 			switch (pieceType)
 			{
@@ -42,25 +43,26 @@ namespace BordgameDigitiser {
 				switch (pieceNumber)
 				{
 				case 1:
-					
+					this->blackBishop1->Location = location;
 					break;
 				case 2:
-
+					this->blackBishop2->Location = location;
 					break;
 				default:
 					break;
 				}
 				break;
 			case BK:
-
+				this->blackKing->Location = location;
+				break;
 			case BN:
 				switch (pieceNumber)
 				{
 				case 1:
-
+					this->blackKnight1->Location = location;
 					break;
 				case 2:
-
+					this->blackKnight2->Location = location;
 					break;
 				default:
 					break;
@@ -71,28 +73,28 @@ namespace BordgameDigitiser {
 				switch (pieceNumber)
 				{
 				case 1:
-
+					this->blackPawn1->Location = location;
 					break;
 				case 2:
-
+					this->blackPawn2->Location = location;
 					break;
 				case 3:
-
+					this->blackPawn3->Location = location;
 					break;
 				case 4:
-
+					this->blackPawn4->Location = location;
 					break;
 				case 5:
-
+					this->blackPawn5->Location = location;
 					break;
 				case 6:
-
+					this->blackPawn6->Location = location;
 					break;
 				case 7:
-
+					this->blackPawn7->Location = location;
 					break;
 				case 8:
-
+					this->blackPawn8->Location = location;
 					break;
 				default:
 					break;
@@ -100,15 +102,16 @@ namespace BordgameDigitiser {
 				break;
 
 			case BQ:
-
+				this->blackQueen->Location = location;
+				break;
 			case BR:
 				switch (pieceNumber)
 				{
 				case 1:
-
+					this->blackRook1->Location = location;
 					break;
 				case 2:
-
+					this->blackRook2->Location = location;
 					break;
 				default:
 					break;
@@ -119,10 +122,10 @@ namespace BordgameDigitiser {
 				switch (pieceNumber)
 				{
 				case 1:
-
+					this->whiteBishop1->Location = location;
 					break;
 				case 2:
-
+					this->whiteBishop2->Location = location;
 					break;
 				default:
 					break;
@@ -130,15 +133,16 @@ namespace BordgameDigitiser {
 				break;
 
 			case WK:
-
+				this->whiteKing->Location = location;
+				break;
 			case WN:
 				switch (pieceNumber)
 				{
 				case 1:
-
+					this->whiteKnight1->Location = location;
 					break;
 				case 2:
-
+					this->whiteBishop2->Location = location;
 					break;
 				default:
 					break;
@@ -178,15 +182,16 @@ namespace BordgameDigitiser {
 				break;
 
 			case WQ:
-
+				this->whiteQueen->Location = location;
+				break;
 			case WR:
 				switch (pieceNumber)
 				{
 				case 1:
-
+					this->whiteRook1->Location = location;
 					break;
 				case 2:
-
+					this->whiteRook2->Location = location;
 					break;
 				default:
 					break;
@@ -415,7 +420,6 @@ namespace BordgameDigitiser {
 			this->whitePawn1->Size = System::Drawing::Size(240, 240);
 			this->whitePawn1->TabIndex = 1;
 			this->whitePawn1->TabStop = false;
-			this->whitePawn1->Click += gcnew System::EventHandler(this, &UIBoard::pictureBox27_Click);
 			// 
 			// whitePawn2
 			// 
@@ -427,7 +431,6 @@ namespace BordgameDigitiser {
 			this->whitePawn2->Size = System::Drawing::Size(240, 240);
 			this->whitePawn2->TabIndex = 2;
 			this->whitePawn2->TabStop = false;
-			this->whitePawn2->Click += gcnew System::EventHandler(this, &UIBoard::pictureBox28_Click);
 			// 
 			// whitePawn3
 			// 
@@ -439,7 +442,6 @@ namespace BordgameDigitiser {
 			this->whitePawn3->Size = System::Drawing::Size(240, 240);
 			this->whitePawn3->TabIndex = 3;
 			this->whitePawn3->TabStop = false;
-			this->whitePawn3->Click += gcnew System::EventHandler(this, &UIBoard::pictureBox29_Click);
 			// 
 			// whitePawn4
 			// 
@@ -451,7 +453,6 @@ namespace BordgameDigitiser {
 			this->whitePawn4->Size = System::Drawing::Size(240, 240);
 			this->whitePawn4->TabIndex = 4;
 			this->whitePawn4->TabStop = false;
-			this->whitePawn4->Click += gcnew System::EventHandler(this, &UIBoard::pictureBox30_Click);
 			// 
 			// whitePawn5
 			// 
@@ -463,7 +464,6 @@ namespace BordgameDigitiser {
 			this->whitePawn5->Size = System::Drawing::Size(240, 240);
 			this->whitePawn5->TabIndex = 5;
 			this->whitePawn5->TabStop = false;
-			this->whitePawn5->Click += gcnew System::EventHandler(this, &UIBoard::pictureBox17_Click);
 			// 
 			// whitePawn6
 			// 
@@ -475,7 +475,6 @@ namespace BordgameDigitiser {
 			this->whitePawn6->Size = System::Drawing::Size(240, 240);
 			this->whitePawn6->TabIndex = 6;
 			this->whitePawn6->TabStop = false;
-			this->whitePawn6->Click += gcnew System::EventHandler(this, &UIBoard::pictureBox18_Click);
 			// 
 			// whitePawn7
 			// 
@@ -487,7 +486,6 @@ namespace BordgameDigitiser {
 			this->whitePawn7->Size = System::Drawing::Size(240, 240);
 			this->whitePawn7->TabIndex = 7;
 			this->whitePawn7->TabStop = false;
-			this->whitePawn7->Click += gcnew System::EventHandler(this, &UIBoard::pictureBox19_Click);
 			// 
 			// whitePawn8
 			// 
@@ -499,7 +497,6 @@ namespace BordgameDigitiser {
 			this->whitePawn8->Size = System::Drawing::Size(240, 240);
 			this->whitePawn8->TabIndex = 8;
 			this->whitePawn8->TabStop = false;
-			this->whitePawn8->Click += gcnew System::EventHandler(this, &UIBoard::pictureBox20_Click);
 			// 
 			// whiteRook1
 			// 
@@ -665,7 +662,6 @@ namespace BordgameDigitiser {
 			this->blackPawn7->Size = System::Drawing::Size(240, 240);
 			this->blackPawn7->TabIndex = 23;
 			this->blackPawn7->TabStop = false;
-			this->blackPawn7->Click += gcnew System::EventHandler(this, &UIBoard::pictureBox14_Click);
 			// 
 			// blackPawn8
 			// 
@@ -796,6 +792,7 @@ namespace BordgameDigitiser {
 			this->nächsterZugButton->TabIndex = 301;
 			this->nächsterZugButton->Text = L"Nächster Zug";
 			this->nächsterZugButton->UseVisualStyleBackColor = true;
+			this->nächsterZugButton->Click += gcnew System::EventHandler(this, &UIBoard::nächsterZugButton_Click);
 			// 
 			// gameLog
 			// 
@@ -835,12 +832,12 @@ namespace BordgameDigitiser {
 			this->Controls->Add(this->gameLogPanel);
 			this->Controls->Add(this->chessBoardPanel);
 			this->Margin = System::Windows::Forms::Padding(6);
-			this->MinimumSize = System::Drawing::Size(1851, 1414);
+			this->MaximumSize = System::Drawing::Size(3240, 2160);
+			this->MinimumSize = System::Drawing::Size(3238, 2078);
 			this->Name = L"UIBoard";
 			this->Padding = System::Windows::Forms::Padding(20);
 			this->Text = L"Board";
 			this->WindowState = System::Windows::Forms::FormWindowState::Maximized;
-			this->Load += gcnew System::EventHandler(this, &UIBoard::Board_Load);
 			this->chessBoardPanel->ResumeLayout(false);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->whitePawn1))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->whitePawn2))->EndInit();
@@ -881,27 +878,11 @@ namespace BordgameDigitiser {
 		}
 		
 #pragma endregion
-	private: System::Void pictureBox27_Click(System::Object^  sender, System::EventArgs^  e) {
-	}
-	private: System::Void pictureBox28_Click(System::Object^  sender, System::EventArgs^  e) {
-	}
-	private: System::Void pictureBox29_Click(System::Object^  sender, System::EventArgs^  e) {
-	}
-	private: System::Void pictureBox30_Click(System::Object^  sender, System::EventArgs^  e) {
-	}
-	private: System::Void pictureBox17_Click(System::Object^  sender, System::EventArgs^  e) {
-	}
-	private: System::Void pictureBox18_Click(System::Object^  sender, System::EventArgs^  e) {
-	}
-	private: System::Void pictureBox19_Click(System::Object^  sender, System::EventArgs^  e) {
-	}
-	private: System::Void pictureBox20_Click(System::Object^  sender, System::EventArgs^  e) {
-	}
-	private: System::Void pictureBox14_Click(System::Object^  sender, System::EventArgs^  e) {
-	}
-	private: System::Void Board_Load(System::Object^  sender, System::EventArgs^  e) {
-	}
-	};
+	private: System::Void nächsterZugButton_Click(System::Object^  sender, System::EventArgs^  e) {
 
+		BordgameDigitiser::UIMenu menu;
+		Application::Run(%menu);
+	}
+};
 	
 }

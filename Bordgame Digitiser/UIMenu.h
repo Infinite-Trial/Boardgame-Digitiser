@@ -48,11 +48,24 @@ namespace BordgameDigitiser {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->components = gcnew System::ComponentModel::Container();
-			this->Size = System::Drawing::Size(300,300);
-			this->Text = L"UIMenu";
-			this->Padding = System::Windows::Forms::Padding(0);
+			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(UIMenu::typeid));
+			this->SuspendLayout();
+			// 
+			// UIMenu
+			// 
+			this->AutoScaleDimensions = System::Drawing::SizeF(12, 25);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"$this.BackgroundImage")));
+			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
+			this->ClientSize = System::Drawing::Size(3214, 2089);
+			this->DoubleBuffered = true;
+			this->MaximumSize = System::Drawing::Size(3240, 2160);
+			this->MinimumSize = System::Drawing::Size(3238, 2078);
+			this->Name = L"UIMenu";
+			this->Padding = System::Windows::Forms::Padding(20);
+			this->Text = L"UIMenu";
+			this->ResumeLayout(false);
+
 		}
 #pragma endregion
 	};

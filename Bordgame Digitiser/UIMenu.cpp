@@ -16,7 +16,4 @@ using namespace std;
 
 [STAThreadAttribute]
 void Main() {
-	Application::EnableVisualStyles();
-	Application::SetCompatibleTextRenderingDefault(false);
-	BordgameDigitiser::UIMenu form;
-	Application::Run(%form);
+}
