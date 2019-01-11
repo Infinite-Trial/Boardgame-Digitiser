@@ -27,6 +27,10 @@ namespace BordgameDigitiser {
 		UIBoard(void)
 		{
 			InitializeComponent();
+
+			BordgameDigitiser::UIMenu^ formMenu = gcnew UIMenu();
+			formMenu->ShowDialog();
+
 			for (int i = 0; i < 200; i++) {
 				gameLog->Items->Add(i);
 			}
@@ -34,7 +38,7 @@ namespace BordgameDigitiser {
 
 		}
 
-				
+		
 		void setLocation(pieceTypes pieceType, int pieceNumber, System::Drawing::Point location) {
 			
 			switch (pieceType)
@@ -405,7 +409,7 @@ namespace BordgameDigitiser {
 			this->chessBoardPanel->Controls->Add(this->blackBishop2);
 			this->chessBoardPanel->Controls->Add(this->blackQueen);
 			this->chessBoardPanel->Controls->Add(this->blackKing);
-			this->chessBoardPanel->Location = System::Drawing::Point(20, 20);
+			this->chessBoardPanel->Location = System::Drawing::Point(40, 40);
 			this->chessBoardPanel->Name = L"chessBoardPanel";
 			this->chessBoardPanel->Size = System::Drawing::Size(1920, 1920);
 			this->chessBoardPanel->TabIndex = 0;
@@ -766,21 +770,22 @@ namespace BordgameDigitiser {
 			// 
 			this->buttonPanel->Controls->Add(this->zurückButton);
 			this->buttonPanel->Controls->Add(this->nächsterZugButton);
-			this->buttonPanel->Location = System::Drawing::Point(1980, 1730);
+			this->buttonPanel->Location = System::Drawing::Point(2000, 1750);
 			this->buttonPanel->Name = L"buttonPanel";
-			this->buttonPanel->Size = System::Drawing::Size(1240, 210);
+			this->buttonPanel->Size = System::Drawing::Size(1200, 210);
 			this->buttonPanel->TabIndex = 300;
 			// 
 			// zurückButton
 			// 
 			this->zurückButton->Font = (gcnew System::Drawing::Font(L"Microsoft JhengHei", 20, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->zurückButton->Location = System::Drawing::Point(630, 0);
+			this->zurückButton->Location = System::Drawing::Point(610, 0);
 			this->zurückButton->Name = L"zurückButton";
-			this->zurückButton->Size = System::Drawing::Size(610, 210);
+			this->zurückButton->Size = System::Drawing::Size(590, 210);
 			this->zurückButton->TabIndex = 302;
 			this->zurückButton->Text = L"Zurück zum Hauptmenü";
 			this->zurückButton->UseVisualStyleBackColor = true;
+			this->zurückButton->Click += gcnew System::EventHandler(this, &UIBoard::Zurück_Click);
 			// 
 			// nächsterZugButton
 			// 
@@ -788,11 +793,10 @@ namespace BordgameDigitiser {
 				static_cast<System::Byte>(0)));
 			this->nächsterZugButton->Location = System::Drawing::Point(0, 0);
 			this->nächsterZugButton->Name = L"nächsterZugButton";
-			this->nächsterZugButton->Size = System::Drawing::Size(610, 210);
+			this->nächsterZugButton->Size = System::Drawing::Size(590, 210);
 			this->nächsterZugButton->TabIndex = 301;
 			this->nächsterZugButton->Text = L"Nächster Zug";
 			this->nächsterZugButton->UseVisualStyleBackColor = true;
-			this->nächsterZugButton->Click += gcnew System::EventHandler(this, &UIBoard::nächsterZugButton_Click);
 			// 
 			// gameLog
 			// 
@@ -803,22 +807,22 @@ namespace BordgameDigitiser {
 			this->gameLog->Location = System::Drawing::Point(0, 0);
 			this->gameLog->Name = L"gameLog";
 			this->gameLog->ScrollAlwaysVisible = true;
-			this->gameLog->Size = System::Drawing::Size(1240, 1399);
+			this->gameLog->Size = System::Drawing::Size(1200, 1430);
 			this->gameLog->TabIndex = 101;
 			// 
 			// gameLogPanel
 			// 
 			this->gameLogPanel->Controls->Add(this->gameLog);
-			this->gameLogPanel->Location = System::Drawing::Point(1980, 20);
+			this->gameLogPanel->Location = System::Drawing::Point(2000, 40);
 			this->gameLogPanel->Name = L"gameLogPanel";
-			this->gameLogPanel->Size = System::Drawing::Size(1240, 1450);
+			this->gameLogPanel->Size = System::Drawing::Size(1200, 1430);
 			this->gameLogPanel->TabIndex = 101;
 			// 
 			// statBlockPanel
 			// 
-			this->statBlockPanel->Location = System::Drawing::Point(1980, 1470);
+			this->statBlockPanel->Location = System::Drawing::Point(2000, 1490);
 			this->statBlockPanel->Name = L"statBlockPanel";
-			this->statBlockPanel->Size = System::Drawing::Size(1240, 220);
+			this->statBlockPanel->Size = System::Drawing::Size(1200, 240);
 			this->statBlockPanel->TabIndex = 200;
 			// 
 			// UIBoard
@@ -826,14 +830,14 @@ namespace BordgameDigitiser {
 			this->AutoScaleDimensions = System::Drawing::SizeF(12, 25);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->AutoSize = true;
-			this->ClientSize = System::Drawing::Size(3214, 2089);
+			this->ClientSize = System::Drawing::Size(3214, 1989);
 			this->Controls->Add(this->statBlockPanel);
 			this->Controls->Add(this->buttonPanel);
 			this->Controls->Add(this->gameLogPanel);
 			this->Controls->Add(this->chessBoardPanel);
 			this->Margin = System::Windows::Forms::Padding(6);
-			this->MaximumSize = System::Drawing::Size(3240, 2160);
-			this->MinimumSize = System::Drawing::Size(3238, 2078);
+			this->MaximumSize = System::Drawing::Size(3240, 2060);
+			this->MinimumSize = System::Drawing::Size(3238, 2060);
 			this->Name = L"UIBoard";
 			this->Padding = System::Windows::Forms::Padding(20);
 			this->Text = L"Board";
@@ -878,11 +882,13 @@ namespace BordgameDigitiser {
 		}
 		
 #pragma endregion
-	private: System::Void nächsterZugButton_Click(System::Object^  sender, System::EventArgs^  e) {
 
-		BordgameDigitiser::UIMenu menu;
-		Application::Run(%menu);
+	private: System::Void Zurück_Click(System::Object^  sender, System::EventArgs^  e) {
+		//this->Close();
+		BordgameDigitiser::UIMenu^ formMenu = gcnew UIMenu();
+		formMenu->ShowDialog();
 	}
 };
 	
 }
+

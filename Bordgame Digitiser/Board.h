@@ -19,7 +19,7 @@ private:
 	PlaneState previousState;
 	PlaneState currentState;
 	int numberOfChanges;
-	std::vector<System::Drawing::Point> location;
+	//std::vector<System::Drawing::Point> location;
 	
 	
 };
