@@ -2,7 +2,7 @@
 
 #include "ChessField.h"
 
-ChessField::ChessField(cv::Rect fieldROI, cv::Point2i fieldCoord)
+ChessField::ChessField(const cv::Rect fieldROI, const cv::Point2i fieldCoord)
 {
 	this->fieldCoord = fieldCoord;
 	this->fieldROI = fieldROI;
@@ -10,6 +10,11 @@ ChessField::ChessField(cv::Rect fieldROI, cv::Point2i fieldCoord)
 
 ChessField::~ChessField()
 {
+}
+
+void ChessField::updateChessFieldROI(const cv::Rect fieldROI)
+{
+	this->fieldROI = fieldROI;
 }
 
 cv::Rect ChessField::getFieldROI()

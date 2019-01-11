@@ -10,6 +10,7 @@ public  class ChessField
 public:
 	ChessField(cv::Rect fieldROI,cv::Point2i fieldCoord);
 	~ChessField();
+	void updateChessFieldROI(cv::Rect fieldROI); //updates the ROI, but not the virtual coordinates
 	cv::Rect getFieldROI();
 	cv::Point2i getFieldCoord();
 private:
