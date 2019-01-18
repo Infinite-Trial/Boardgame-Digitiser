@@ -21,6 +21,7 @@ public:
 	std::vector<cv::Point2i> difference(const PlaneState reference); //returns the coordinates of the different fields
 	bool equals(PlaneState reference); //compares two boards
 	void reset(); //resets the board
+	void clear(); //sets the whole board to NP
 private:
 	std::vector<std::vector<pieceTypes>> state;
 };
