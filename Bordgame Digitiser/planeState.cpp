@@ -6,7 +6,7 @@
 //constructor
 PlaneState::PlaneState()
 {
-	reset();
+	clear();
 }
 //destruktor
 PlaneState::~PlaneState()
@@ -66,12 +66,23 @@ bool PlaneState::equals(PlaneState reference)
 }
 void PlaneState::reset()
 {
-	state= {{WR,WP,NP,NP,NP,NP,BP,BR},
-			{WN,WP,NP,NP,NP,NP,BP,BN},
-			{WB,WP,NP,NP,NP,NP,BP,BB},
-			{WQ,WP,NP,NP,NP,NP,BP,BQ},
-			{WK,WP,NP,NP,NP,NP,BP,BK},
-			{WB,WP,NP,NP,NP,NP,BP,BB},
-			{WN,WP,NP,NP,NP,NP,BP,BN},
-			{WR,WP,NP,NP,NP,NP,BP,BR}};
+	state= {{BR,BP,NP,NP,NP,NP,WP,WR},
+			{BN,BP,NP,NP,NP,NP,WP,WN},
+			{BB,BP,NP,NP,NP,NP,WP,WB},
+			{BQ,BP,NP,NP,NP,NP,WP,WQ},
+			{BK,BP,NP,NP,NP,NP,WP,WK},
+			{BB,BP,NP,NP,NP,NP,WP,WB},
+			{BN,BP,NP,NP,NP,NP,WP,WN},
+			{BR,BP,NP,NP,NP,NP,WP,WR}};
+}
+void PlaneState::clear()
+{
+	state= {{NP,NP,NP,NP,NP,NP,NP,NP},
+			{NP,NP,NP,NP,NP,NP,NP,NP},
+			{NP,NP,NP,NP,NP,NP,NP,NP},
+			{NP,NP,NP,NP,NP,NP,NP,NP},
+			{NP,NP,NP,NP,NP,NP,NP,NP},
+			{NP,NP,NP,NP,NP,NP,NP,NP},
+			{NP,NP,NP,NP,NP,NP,NP,NP},
+			{NP,NP,NP,NP,NP,NP,NP,NP} };
 }

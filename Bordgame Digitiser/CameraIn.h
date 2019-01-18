@@ -11,15 +11,15 @@ public class CameraIn
 {
 public:
 	CameraIn();
-	std::vector<std::vector<pieceTypes>> getBoardStatePlane();
-	std::vector<std::vector<pieceTypes>> chainToPlane(std::vector<pieceTypes> pieceChain);
-	std::vector<ChessPiece> planeToChain(std::vector<std::vector<int>>);
+	std::vector<std::vector<pieceTypes>> getBoardStatePlane() throw (int); 
+	std::vector<std::vector<pieceTypes>> chainToPlane(std::vector<ChessPiece> pieceChain);
+	std::vector<ChessPiece> planeToChain(const std::vector<std::vector<pieceTypes>> piecePlain);
 private:
 	//properties
 	std::vector<pieceTypes> detectedPieces;
 	std::vector<ChessField> detectedFields;
 	//methods
-	std::vector<cv::Rect> getPieceRecs(pieceTypes piece);
-	std::vector<ChessField> getFielsRecs();
+	void getPieceRecs(std::vector<cv::Rect>, pieceTypes piece) throw (int);
+	std::vector<ChessField> getFieldRecs() throw (int);
 };
 

@@ -9,6 +9,7 @@
 public class ChessPiece
 {
 public:
+	ChessPiece();
 	ChessPiece(cv::Point2i pos,pieceTypes type);
 	~ChessPiece();
 //seter
@@ -17,6 +18,7 @@ public:
 	cv::Point2i getPos();//Gets the coordinates 
 	pieceTypes getType(); //Gets the type
 private:
+
 	pieceTypes type; //The type of the chesspiece
 	cv::Point2i coordinates; //The coordinates of the piece in the 2d vector
 };
