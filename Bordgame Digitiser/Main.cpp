@@ -7,6 +7,8 @@
 #include "opencv2/highgui.hpp"
 #include <iostream>
 #include <ctype.h>
+#include <chrono>
+#include "Board.h"
 
 
 using namespace System;
@@ -23,4 +25,24 @@ void Main() {
 	Application::SetCompatibleTextRenderingDefault(false);
 	BordgameDigitiser::UIBoard formBoard;
 	Application::Run(%formBoard);
+	/*Board board = Board();
+	_sleep(10000);
+	board.setCurrState(PlaneState({{BR,BP,NP,NP,NP,NP,WP,WR},
+						{BN,BP,NP,NP,NP,NP,WP,WN},
+						{BB,BP,NP,NP,NP,NP,WP,WB},
+						{BQ,BP,NP,NP,NP,NP,WP,WQ},
+						{BK,BP,NP,NP,NP,NP,WP,WK},
+						{BB,BP,NP,NP,NP,NP,WP,WB},
+						{BN,BP,NP,NP,NP,NP,WP,WN},
+						{BR,BP,NP,NP,NP,NP,WP,WR}} ));
+	board.setPrevState({{BR,BP,NP,NP,NP,NP,WP,WR},
+						{BN,BP,NP,NP,NP,NP,WP,WN},
+						{BB,BP,NP,NP,NP,NP,WP,WB},
+						{BQ,BP,NP,NP,NP,NP,WP,WQ},
+						{BK,BP,NP,NP,NP,NP,WP,WK},
+						{BB,BP,NP,NP,NP,NP,WP,WB},
+						{BN,BP,NP,NP,NP,NP,WP,WN},
+						{BR,BP,NP,NP,NP,NP,WP,WR}});*/
+
+
 }

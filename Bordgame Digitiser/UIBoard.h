@@ -1,11 +1,7 @@
 #pragma once
 
 
-#include <iostream>
-#include <ctype.h>
 #include "PlaneState.h"
-#include <vector>
-#include <list>
 #include "UIMenu.h"
 
 namespace BordgameDigitiser {
@@ -23,6 +19,7 @@ namespace BordgameDigitiser {
 	/// </summary>
 	public ref class UIBoard : public System::Windows::Forms::Form
 	{
+
 	public:
 		UIBoard(void)
 		{
@@ -37,176 +34,117 @@ namespace BordgameDigitiser {
 
 
 		}
-
 		
-		void setLocation(pieceTypes pieceType, int pieceNumber, System::Drawing::Point location) {
-			
+		
+
+		void setLocation(pieceTypes pieceType, System::Drawing::Point prevLocation, System::Drawing::Point currentLocation) {
+
 			switch (pieceType)
 			{
 			case BB:
-				switch (pieceNumber)
-				{
-				case 1:
-					this->blackBishop1->Location = location;
-					break;
-				case 2:
-					this->blackBishop2->Location = location;
-					break;
-				default:
-					break;
-				}
+				if (this->blackBishop1->Location == currentLocation) { this->blackBishop1->Location = exitPoint; }
+				if (this->blackBishop2->Location == currentLocation) { this->blackBishop2->Location = exitPoint; }
+				if (this->blackBishop1->Location == prevLocation) { this->blackBishop1->Location = currentLocation; }
+				if (this->blackBishop2->Location == prevLocation) { this->blackBishop2->Location = currentLocation; }
+
 				break;
 			case BK:
-				this->blackKing->Location = location;
+				if (this->blackKing->Location == currentLocation) { this->blackKing->Location = exitPoint; }
+				if (this->blackKing->Location == prevLocation) { this->blackKing->Location = currentLocation; }
 				break;
+
 			case BN:
-				switch (pieceNumber)
-				{
-				case 1:
-					this->blackKnight1->Location = location;
-					break;
-				case 2:
-					this->blackKnight2->Location = location;
-					break;
-				default:
-					break;
-				}
+				if (this->blackKnight1->Location == currentLocation) { this->blackKnight1->Location = exitPoint; }
+				if (this->blackKnight2->Location == currentLocation) { this->blackKnight2->Location = exitPoint; }
+				if (this->blackKnight1->Location == prevLocation) { this->blackKnight1->Location = currentLocation; }
+				if (this->blackKnight2->Location == prevLocation) { this->blackKnight2->Location = currentLocation; }
 				break;
 
 			case BP:
-				switch (pieceNumber)
-				{
-				case 1:
-					this->blackPawn1->Location = location;
-					break;
-				case 2:
-					this->blackPawn2->Location = location;
-					break;
-				case 3:
-					this->blackPawn3->Location = location;
-					break;
-				case 4:
-					this->blackPawn4->Location = location;
-					break;
-				case 5:
-					this->blackPawn5->Location = location;
-					break;
-				case 6:
-					this->blackPawn6->Location = location;
-					break;
-				case 7:
-					this->blackPawn7->Location = location;
-					break;
-				case 8:
-					this->blackPawn8->Location = location;
-					break;
-				default:
-					break;
-				}
+				if (this->blackPawn1->Location == currentLocation) { this->blackPawn1->Location = exitPoint; }
+				if (this->blackPawn2->Location == currentLocation) { this->blackPawn2->Location = exitPoint; }
+				if (this->blackPawn3->Location == currentLocation) { this->blackPawn3->Location = exitPoint; }
+				if (this->blackPawn4->Location == currentLocation) { this->blackPawn4->Location = exitPoint; }
+				if (this->blackPawn5->Location == currentLocation) { this->blackPawn5->Location = exitPoint; }
+				if (this->blackPawn6->Location == currentLocation) { this->blackPawn6->Location = exitPoint; }
+				if (this->blackPawn7->Location == currentLocation) { this->blackPawn7->Location = exitPoint; }
+				if (this->blackPawn8->Location == currentLocation) { this->blackPawn8->Location = exitPoint; }
+				if (this->blackPawn1->Location == prevLocation) { this->blackPawn1->Location = currentLocation; }
+				if (this->blackPawn2->Location == prevLocation) { this->blackPawn2->Location = currentLocation; }
+				if (this->blackPawn3->Location == prevLocation) { this->blackPawn3->Location = currentLocation; }
+				if (this->blackPawn4->Location == prevLocation) { this->blackPawn4->Location = currentLocation; }
+				if (this->blackPawn5->Location == prevLocation) { this->blackPawn5->Location = currentLocation; }
+				if (this->blackPawn6->Location == prevLocation) { this->blackPawn6->Location = currentLocation; }
+				if (this->blackPawn7->Location == prevLocation) { this->blackPawn7->Location = currentLocation; }
+				if (this->blackPawn8->Location == prevLocation) { this->blackPawn8->Location = currentLocation; }
 				break;
 
 			case BQ:
-				this->blackQueen->Location = location;
+				if (this->blackQueen->Location == currentLocation) { this->blackQueen->Location = exitPoint; }
+				if (this->blackQueen->Location == prevLocation) { this->blackQueen->Location = currentLocation; }
 				break;
 			case BR:
-				switch (pieceNumber)
-				{
-				case 1:
-					this->blackRook1->Location = location;
-					break;
-				case 2:
-					this->blackRook2->Location = location;
-					break;
-				default:
-					break;
-				}
+				if (this->blackRook1->Location == currentLocation) { this->blackRook1->Location = exitPoint; }
+				if (this->blackRook2->Location == currentLocation) { this->blackRook2->Location = exitPoint; }
+				if (this->blackRook1->Location == prevLocation) { this->blackRook1->Location = currentLocation; }
+				if (this->blackRook2->Location == prevLocation) { this->blackRook2->Location = currentLocation; }
 				break;
 
 			case WB:
-				switch (pieceNumber)
-				{
-				case 1:
-					this->whiteBishop1->Location = location;
-					break;
-				case 2:
-					this->whiteBishop2->Location = location;
-					break;
-				default:
-					break;
-				}
+				if (this->whiteBishop1->Location == currentLocation) { this->whiteBishop1->Location = exitPoint; }
+				if (this->whiteBishop2->Location == currentLocation) { this->whiteBishop2->Location = exitPoint; }
+				if (this->whiteBishop1->Location == prevLocation) { this->whiteBishop1->Location = currentLocation; }
+				if (this->whiteBishop2->Location == prevLocation) { this->whiteBishop2->Location = currentLocation; }
 				break;
 
 			case WK:
-				this->whiteKing->Location = location;
+				if (this->whiteKing->Location == currentLocation) { this->whiteKing->Location = exitPoint; }
+				if (this->whiteKing->Location == prevLocation) { this->whiteKing->Location = currentLocation; }
 				break;
 			case WN:
-				switch (pieceNumber)
-				{
-				case 1:
-					this->whiteKnight1->Location = location;
-					break;
-				case 2:
-					this->whiteBishop2->Location = location;
-					break;
-				default:
-					break;
-				}
+				if (this->whiteKnight1->Location == currentLocation) { this->whiteKnight1->Location = exitPoint; }
+				if (this->whiteKnight2->Location == currentLocation) { this->whiteKnight2->Location = exitPoint; }
+				if (this->whiteKnight1->Location == prevLocation) { this->whiteKnight1->Location = currentLocation; }
+				if (this->whiteKnight2->Location == prevLocation) { this->whiteKnight2->Location = currentLocation; }
 				break;
 
 			case WP:
-				switch (pieceNumber)
-				{
-				case 1:
-					this->whitePawn1->Location = location;
-					break;
-				case 2:
-					this->whitePawn2->Location = location;
-					break;
-				case 3:
-					this->whitePawn3->Location = location;
-					break;
-				case 4:
-					this->whitePawn4->Location = location;
-					break;
-				case 5:
-					this->whitePawn5->Location = location;
-					break;
-				case 6:
-					this->whitePawn6->Location = location;
-					break;
-				case 7:
-					this->whitePawn7->Location = location;
-					break;
-				case 8:
-					this->whitePawn8->Location = location;
-					break;
-				default:
-					break;
-				}
+				if (this->whitePawn1->Location == currentLocation) { this->whitePawn1->Location = exitPoint; }
+				if (this->whitePawn2->Location == currentLocation) { this->whitePawn2->Location = exitPoint; }
+				if (this->whitePawn3->Location == currentLocation) { this->whitePawn3->Location = exitPoint; }
+				if (this->whitePawn4->Location == currentLocation) { this->whitePawn4->Location = exitPoint; }
+				if (this->whitePawn5->Location == currentLocation) { this->whitePawn5->Location = exitPoint; }
+				if (this->whitePawn6->Location == currentLocation) { this->whitePawn6->Location = exitPoint; }
+				if (this->whitePawn7->Location == currentLocation) { this->whitePawn7->Location = exitPoint; }
+				if (this->whitePawn8->Location == currentLocation) { this->whitePawn8->Location = exitPoint; }
+				if (this->whitePawn1->Location == prevLocation) { this->whitePawn1->Location = currentLocation; }
+				if (this->whitePawn2->Location == prevLocation) { this->whitePawn2->Location = currentLocation; }
+				if (this->whitePawn3->Location == prevLocation) { this->whitePawn3->Location = currentLocation; }
+				if (this->whitePawn4->Location == prevLocation) { this->whitePawn4->Location = currentLocation; }
+				if (this->whitePawn5->Location == prevLocation) { this->whitePawn5->Location = currentLocation; }
+				if (this->whitePawn6->Location == prevLocation) { this->whitePawn6->Location = currentLocation; }
+				if (this->whitePawn7->Location == prevLocation) { this->whitePawn7->Location = currentLocation; }
+				if (this->whitePawn8->Location == prevLocation) { this->whitePawn8->Location = currentLocation; }
 				break;
 
 			case WQ:
-				this->whiteQueen->Location = location;
+				if (this->whiteQueen->Location == currentLocation) { this->whiteQueen->Location = exitPoint; }
+				if (this->whiteQueen->Location == prevLocation) { this->whiteQueen->Location = currentLocation; }
 				break;
 			case WR:
-				switch (pieceNumber)
-				{
-				case 1:
-					this->whiteRook1->Location = location;
-					break;
-				case 2:
-					this->whiteRook2->Location = location;
-					break;
-				default:
-					break;
-				}
+				if (this->whiteRook1->Location == currentLocation) { this->whiteRook1->Location = exitPoint; }
+				if (this->whiteRook2->Location == currentLocation) { this->whiteRook2->Location = exitPoint; }
+				if (this->whiteRook1->Location == prevLocation) { this->whiteRook1->Location = currentLocation; }
+				if (this->whiteRook2->Location == prevLocation) { this->whiteRook2->Location = currentLocation; }
 				break;
 
 			default:
 				break;
 			}
-	}
-	
+		}
+	private:
+
+		System::Drawing::Point exitPoint = System::Drawing::Point(-240, -240);;
 
 	protected:
 		/// <summary>
@@ -880,7 +818,7 @@ namespace BordgameDigitiser {
 			this->ResumeLayout(false);
 
 		}
-		
+
 #pragma endregion
 
 	private: System::Void Zurück_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -888,7 +826,7 @@ namespace BordgameDigitiser {
 		BordgameDigitiser::UIMenu^ formMenu = gcnew UIMenu();
 		formMenu->ShowDialog();
 	}
-};
-	
+	};
+
 }
 

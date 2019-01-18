@@ -2,9 +2,8 @@
 //Description: Functions for the virtual chess board
 
 #pragma once
-#include <vector>
-#include "CameraIn.h"
-#include "PlaneState.h"
+
+
 #include "UIBoard.h"
 
 class Board
@@ -12,14 +11,22 @@ class Board
 public:
 	Board();
 	~Board();
-	void synchronizeVirtual();
+	void setPrevState(PlaneState state);
+	void setCurrState(PlaneState state);
+	void synchronizeVirtual(BordgameDigitiser::UIBoard form);
 
 private:
 	PlaneState originState;
 	PlaneState previousState;
 	PlaneState currentState;
+	int current, prev;
 	int numberOfChanges;
-	//std::vector<System::Drawing::Point> location;
+	System::Drawing::Point prevLocation;
+	System::Drawing::Point currentLocation;
+	std::vector <cv::Point2i> difference;
+	
+
+
 	
 	
 };
