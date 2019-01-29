@@ -6,7 +6,7 @@
 #include "CONSTANTS.h"
 #include "opencv2/core/types.hpp"
 
-public class ChessPiece
+class ChessPiece
 {
 public:
 	ChessPiece();

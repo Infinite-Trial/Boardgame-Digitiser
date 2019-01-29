@@ -9,11 +9,14 @@ CameraIn::CameraIn()
 {
 }
 
-std::vector<std::vector<pieceTypes>> CameraIn::getBoardStatePlane() throw (int)
+PlaneState CameraIn::getBoardStatePlane() throw (int)
 {
-	std::vector<std::vector<pieceTypes>> currentState;
+	//This funktion should read the CameraInput, detect the board + all chesspieces 
+	//and return the current Planestate
+	PlaneState currentState;
 	std::vector<std::vector<cv::Rect>> pieceROIs;
-	std::thread t[num_threads];
+	std::vector<std::thread> t_Detector;
+	//1. The programm searches for the board and its fields.
 	try {
 		std::vector<ChessField> fieldROIs = getFieldRecs();
 	}
@@ -21,11 +24,22 @@ std::vector<std::vector<pieceTypes>> CameraIn::getBoardStatePlane() throw (int)
 		std::cout << "Fehler: Es konnten " << i << "/" << BOARDHEIGHT * BOARDWIDTH << " Spielfelder erkannt werden.";
 		throw i;
 	}
+	//2. After the board is correctly detected:
+	//The all ChessPieces are detected. 
+	//Each one in a seperate thread 
 	try {
-		for (size_t i = 0; i < pieceROIs.size(); i++)
+
+
+
+		pInfo pieceInfo;
+		std::thread th[12];
+		for (int i = 0; i < 12; i++)
 		{
-			std::thread pawns = std::thread(CameraIn::getPieceRecs,pieceROIs[i],pieceTypes(i+1));
-			pawns.join();
+
+			pieceInfo = { pieceROIs[i],pieceTypes(i + 1) };
+			th[i] = std::thread{ getPieceRecs, pieceInfo };
+			//t_Detector.push_back(th);
+
 		}
 		
 	}
@@ -37,7 +51,7 @@ std::vector<std::vector<pieceTypes>> CameraIn::getBoardStatePlane() throw (int)
 
 	return currentState;
 }
-std::vector<std::vector<pieceTypes>> CameraIn::chainToPlane(std::vector<ChessPiece> pieceChain)
+PlaneState CameraIn::chainToPlane(std::vector<ChessPiece> pieceChain)
 {
 	//A chain of ChessPieces is taken and converted into a 2D vector of chesspieces
 	//From: {WR,WP,NP,NP,NP,NP,BP,BR, WN,WP,NP,NP,NP,NP,BP,BN, WB,WP,NP,NP,NP,NP,BP,BB, ... }	To:	 {{WR,WP,NP,NP,NP,NP,BP,BR},
@@ -47,16 +61,16 @@ std::vector<std::vector<pieceTypes>> CameraIn::chainToPlane(std::vector<ChessPie
 	//																												.
 	//																												.			}
 
-	std::vector<std::vector<pieceTypes>> Plain;
+	PlaneState Plain;
 	cv::Point2i c;
 	for each (ChessPiece element in pieceChain)
 	{
 		c=element.getPos();
-		Plain[c.x][c.y] = element.getType();
+		Plain.setPieceAt(c.x,c.y,element.getType());
 	}
 	return Plain;
 }
-std::vector<ChessPiece> CameraIn::planeToChain(const std::vector<std::vector<pieceTypes>> piecePlain)
+std::vector<ChessPiece> CameraIn::planeToChain(PlaneState piecePlain)
 {
 	//A 2D vector of chesspieces is taken and converted into a chain of ChessPieces
 	//from: {{WR,WP,NP,NP,NP,NP,BP,BR},	To:{WR,WP,NP,NP,NP,NP,BP,BR, WN,WP,NP,NP,NP,NP,BP,BN, WB,WP,NP,NP,NP,NP,BP,BB, ... }
@@ -66,19 +80,25 @@ std::vector<ChessPiece> CameraIn::planeToChain(const std::vector<std::vector<pie
 	//					.
 	//					.			  }
 	std::vector<ChessPiece> chain;
-		for (int x = 0; x < piecePlain.size(); x++)
+	ChessPiece piece;
+		for (int x = 0; x < piecePlain.width; x++)
 		{
-			for (int y = 0; y < piecePlain[x].size(); y++)
+			for (int y = 0; y < piecePlain.lenght; y++)
 			{
-				chain.push_back(ChessPiece(cv::Point2i(x,y),piecePlain[x][y]));
+				piece = ChessPiece(cv::Point2i(x, y), piecePlain.getPieceAt(x, y));
+				chain.push_back(piece);
 			}
 		}
 	return chain;
 }
 
-void CameraIn::getPieceRecs(std::vector<cv::Rect> ROIs,pieceTypes piece) throw(int)
+void CameraIn::getPieceRecs(pInfo info) throw(int)
 {
-	std::thread::detach();
+	//pInfo = std::vector<cv::Rect> ROIs,pieceTypes piece
+
+
+
+	//std::thread::detach();
 }
 
 std::vector<ChessField> CameraIn::getFieldRecs()
