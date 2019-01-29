@@ -14,38 +14,40 @@ PlaneState CameraIn::getBoardStatePlane() throw (int)
 	//This funktion should read the CameraInput, detect the board + all chesspieces 
 	//and return the current Planestate
 	PlaneState currentState;
-	std::vector<std::vector<cv::Rect>> pieceROIs;
+	std::array<std::vector<cv::Rect>,12> pieceROIs;
 	std::vector<std::thread> t_Detector;
+
 	//1. The programm searches for the board and its fields.
 	try {
 		std::vector<ChessField> fieldROIs = getFieldRecs();
 	}
-	catch (int i) {
-		std::cout << "Fehler: Es konnten " << i << "/" << BOARDHEIGHT * BOARDWIDTH << " Spielfelder erkannt werden.";
-		throw i;
+	catch (int detectedFields) {
+		std::cout << "Fehler: Es konnten " << detectedFields << "/" << BOARDHEIGHT * BOARDWIDTH << " Spielfelder erkannt werden.";
+		throw detectedFields;
 	}
+
 	//2. After the board is correctly detected:
 	//The all ChessPieces are detected. 
 	//Each one in a seperate thread 
 	try {
 
-
-
-		pInfo pieceInfo;
-		std::thread th[12];
 		for (int i = 0; i < 12; i++)
 		{
-
-			pieceInfo = { pieceROIs[i],pieceTypes(i + 1) };
-			th[i] = std::thread{ getPieceRecs, pieceInfo };
-			//t_Detector.push_back(th);
-
+			t_Detector.push_back(std::thread{ getPieceRecs, ref(pieceROIs[i]),pieceTypes(i + 1) });
 		}
 		
 	}
-	catch (int i) {
+	catch (int detectedPieces) {
 
 	}
+	for (int i = 0; i < t_Detector.size(); i++)
+	{
+		t_Detector[i].join();
+	}
+	//3. connect pieces to fields
+
+
+
 
 
 
@@ -92,7 +94,7 @@ std::vector<ChessPiece> CameraIn::planeToChain(PlaneState piecePlain)
 	return chain;
 }
 
-void CameraIn::getPieceRecs(pInfo info) throw(int)
+void CameraIn::getPieceRecs(std::vector<cv::Rect> &ROIs, pieceTypes type) throw(int)
 {
 	//pInfo = std::vector<cv::Rect> ROIs,pieceTypes piece
 

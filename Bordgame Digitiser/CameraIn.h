@@ -16,17 +16,11 @@ public:
 	PlaneState chainToPlane(std::vector<ChessPiece> pieceChain);
 	std::vector<ChessPiece> planeToChain(PlaneState piecePlain);
 private:
-	//this struct is only needed, because the thread-funktion can only take in one parameter
-	struct pInfo
-	{
-		std::vector<cv::Rect> ROIs;
-		pieceTypes type;
-	};
 	//properties
 	std::vector<pieceTypes> detectedPieces;
 	std::vector<ChessField> detectedFields;
 	//methods
-	void getPieceRecs(pInfo info) throw (int);
+	static void getPieceRecs(std::vector<cv::Rect> &ROIs,pieceTypes type) throw (int);
 	std::vector<ChessField> getFieldRecs() throw (int);
 	
 };

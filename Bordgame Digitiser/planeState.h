@@ -11,8 +11,11 @@ class PlaneState
 public:
 	PlaneState();
 	~PlaneState();
+	//constants
+	int const lenght = 12;
+	int const width = 12;
 	//getter
-	pieceTypes getPieceAt(int x,int y);
+	pieceTypes getPieceAt(const int x,const int y);
 	pieceTypes getPieceAt(cv::Point2i pos);
 	//setter
 	void setPieceAt(int x, int y, pieceTypes dif);
