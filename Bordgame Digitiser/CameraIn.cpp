@@ -13,6 +13,7 @@ std::vector<std::vector<pieceTypes>> CameraIn::getBoardStatePlane() throw (int)
 {
 	std::vector<std::vector<pieceTypes>> currentState;
 	std::vector<std::vector<cv::Rect>> pieceROIs;
+	std::thread t[num_threads];
 	try {
 		std::vector<ChessField> fieldROIs = getFieldRecs();
 	}
@@ -23,7 +24,8 @@ std::vector<std::vector<pieceTypes>> CameraIn::getBoardStatePlane() throw (int)
 	try {
 		for (size_t i = 0; i < pieceROIs.size(); i++)
 		{
-			std::thread pawns(CameraIn::getPieceRecs(),pieceROIs[i], i-1);
+			std::thread pawns = std::thread(CameraIn::getPieceRecs,pieceROIs[i],pieceTypes(i+1));
+			pawns.join();
 		}
 		
 	}
