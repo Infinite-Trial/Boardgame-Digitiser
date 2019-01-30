@@ -33,7 +33,20 @@ void PlaneState::setPieceAt(cv::Point2i pos, pieceTypes dif)
 	state[pos.x][pos.y] = dif;
 }
 
+
+
 //methods
+bool PlaneState::isEmpty()
+{
+	for (int i = 0; i < length; i++)
+	{
+		for (int n = 0; n < width; n++)
+		{
+			if (state[i][n] != NP) return false;
+		}
+	}
+	return true;
+}
 std::vector<cv::Point2i> PlaneState::difference(PlaneState reference)
 {	//All members of the board are compared. The funktion returns a collection of the coordinates of all differences.
 	std::vector<cv::Point2i> difs;

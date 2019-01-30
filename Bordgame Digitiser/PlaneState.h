@@ -12,7 +12,7 @@ public:
 	PlaneState();
 	~PlaneState();
 	//constants
-	int const lenght = 12;
+	int const length = 12;
 	int const width = 12;
 	//getter
 	pieceTypes getPieceAt(const int x,const int y);
@@ -21,6 +21,7 @@ public:
 	void setPieceAt(int x, int y, pieceTypes dif);
 	void setPieceAt(cv::Point2i pos, pieceTypes dif);
 	//methods
+	bool isEmpty();
 	std::vector<cv::Point2i> difference(const PlaneState reference); //returns the coordinates of the different fields
 	bool equals(PlaneState reference); //compares two boards
 	void reset(); //resets the board

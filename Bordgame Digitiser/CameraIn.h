@@ -3,6 +3,7 @@
 //
 
 #pragma once
+#include "opencv2/opencv.hpp"
 #include "CONSTANTS.h"
 #include "ChessField.h"
 #include "ChessPiece.h"
@@ -11,16 +12,20 @@
 class CameraIn
 {
 public:
-	CameraIn();
-	PlaneState getBoardStatePlane() throw (int); 
+	enum BOARDeRRORS {NotEnoughFields,TooManyPieces,MissingKing,UnclearPiecePosition};
+
+	CameraIn(int offset) throw(bool);
+	PlaneState getBoardStatePlane() throw (BOARDeRRORS); 
 	PlaneState chainToPlane(std::vector<ChessPiece> pieceChain);
 	std::vector<ChessPiece> planeToChain(PlaneState piecePlain);
 private:
 	//properties
+	cv::VideoCapture cam1,cam0;
 	std::vector<pieceTypes> detectedPieces;
 	std::vector<ChessField> detectedFields;
 	//methods
-	static void getPieceRecs(std::vector<cv::Rect> &ROIs,pieceTypes type) throw (int);
+	static void getPieceMaps(pieceTypes type) throw (int);
+	static std::vector<cv::Rect> getPieceROIs(pieceTypes type);
 	std::vector<ChessField> getFieldRecs() throw (int);
 	
 };
