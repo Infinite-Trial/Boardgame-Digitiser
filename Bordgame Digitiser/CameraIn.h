@@ -24,7 +24,7 @@ private:
 	std::vector<pieceTypes> detectedPieces;
 	std::vector<ChessField> detectedFields;
 	//methods
-	static void getPieceMaps(pieceTypes type) throw (int);
+	static void getPieceCoords(std::vector<ChessPiece> chainFragment, pieceTypes type) throw (pieceTypes);
 	static std::vector<cv::Rect> getPieceROIs(pieceTypes type);
 	std::vector<ChessField> getFieldRecs() throw (int);
 	

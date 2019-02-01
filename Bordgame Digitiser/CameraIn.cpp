@@ -22,7 +22,7 @@ PlaneState CameraIn::getBoardStatePlane() throw (BOARDeRRORS)
 	//This funktion should read the CameraInput, detect the board + all chesspieces 
 	//and return the current Planestate
 	PlaneState currentState;
-	std::vector<PlaneState> maps(12);
+	std::vector<ChessPiece> fullchainState,fragment;
 	std::vector<std::thread> t_worker;
 
 	//1. The programm searches for the board and its fields.
@@ -36,13 +36,13 @@ PlaneState CameraIn::getBoardStatePlane() throw (BOARDeRRORS)
 	//2. After the board is correctly detected:
 	//The all ChessPieces are detected. 
 	//Each type in a seperate thread
-	//The virtual coordinates are returned as a PlaneState
+	//The virtual coordinates are returned as a chain of ChessPieces
 
 	try {
 
 		for (int i = 0; i < 12; i++)
 		{
-			t_worker.push_back(std::thread{ getPieceMaps,pieceTypes(i + 1) });
+			t_worker.push_back(std::thread{ getPieceCoords,pieceTypes(i + 1) });
 		}
 	}
 	catch (pieceTypes type) {
@@ -57,66 +57,41 @@ PlaneState CameraIn::getBoardStatePlane() throw (BOARDeRRORS)
 	{
 		if(t_worker[i].joinable()) t_worker[i].join();
 	}
+	//connect the chains
+
 	//3. checking for errors and deleting unessesary maps
-	//check if both Kings exist
-	if (maps[BK - 1].isEmpty() || maps[WK - 1].isEmpty()) throw(MissingKing);
-	//delete empty maps
-	for (int i = maps.size(); i > 0; i--)
-	{
-		if (maps[i].isEmpty())
-		{
-			maps.erase(maps.begin()+i);
-		}
-	}
 	//check for double assigned fields
 	try
 	{
-		//compare every plane with every other plane 
-		for (int i = 0; i < maps.size(); i++)
+		//compare every ChessPiece with every other ChessPiece 
+		for (int i = 0; i < fullchainState.size(); i++)
 		{
-			for (int n = i + 1; n < maps.size(); n++)
+			for (int n = i + 1; n < fullchainState.size(); n++)
 			{
-				//compare all fields
-				for (int x = 0; x < maps[i].length; x++)
-				{
-					for (int y = 0; y < maps[i].length; y++)
-					{
-						//when both fields are not empty throw an error
-						if (maps[i].getPieceAt(x, y)!=NP && maps[n].getPieceAt(x, y)!=NP) 
-							throw(std::array<int, 4>{ i, n, x, y });
-					}
-				}
-				
+				if (fullchainState[i].getPos() == fullchainState[n].getPos())
+					throw(std::array<ChessPiece&,2>{&fullchainState[i], &fullchainState[n]});
 			}
 		}
 	}
-	catch (std::array<int,4> collision)
+	catch (std::array<ChessPiece&,2> collision)
 	{
 		//
 		//
 		//
 		throw(UnclearPiecePosition);
 	}
-
-	//4. Merge all Maps
-
-
-
-
-
-
-	return currentState;
+	//4. convert the chain to a plane and return it
+	return chainToPlane(fullchainState);
 }
 PlaneState CameraIn::chainToPlane(std::vector<ChessPiece> pieceChain)
 {
 	//A chain of ChessPieces is taken and converted into a 2D vector of chesspieces
-	//From: {WR,WP,NP,NP,NP,NP,BP,BR, WN,WP,NP,NP,NP,NP,BP,BN, WB,WP,NP,NP,NP,NP,BP,BB, ... }	To:	 {{WR,WP,NP,NP,NP,NP,BP,BR},
-	//																								  {WN,WP,NP,NP,NP,NP,BP,BN},
-	//																								  {WB,WP,NP,NP,NP,NP,BP,BB},
-	//																												.
-	//																												.
-	//																												.			}
-
+	//From: {(WR,0/0),(WP,0/1),(BP,0/6),(BR,0/7),(WN,1/1),(WP,1/2),(BP,1/6),(BN,1/7), ... }	To:	 {{WR,WP,NP,NP,NP,NP,BP,BR},
+	//																							  {WN,WP,NP,NP,NP,NP,BP,BN},
+	//																							  {WB,WP,NP,NP,NP,NP,BP,BB},
+	//																											.
+	//																											.
+	//																											.			}
 	PlaneState Plain;
 	cv::Point2i c;
 	for each (ChessPiece element in pieceChain)
@@ -129,7 +104,7 @@ PlaneState CameraIn::chainToPlane(std::vector<ChessPiece> pieceChain)
 std::vector<ChessPiece> CameraIn::planeToChain(PlaneState piecePlain)
 {
 	//A 2D vector of chesspieces is taken and converted into a chain of ChessPieces
-	//from: {{WR,WP,NP,NP,NP,NP,BP,BR},	To:{WR,WP,NP,NP,NP,NP,BP,BR, WN,WP,NP,NP,NP,NP,BP,BN, WB,WP,NP,NP,NP,NP,BP,BB, ... }
+	//from: {{WR,WP,NP,NP,NP,NP,BP,BR},	To:{(WR,0/0),(WP,0/1),(BP,0/6),(BR,0/7),(WN,1/1),(WP,1/2),(BP,1/6),(BN,1/7), ... }
 	//		 {WN,WP,NP,NP,NP,NP,BP,BN},
 	//		 {WB,WP,NP,NP,NP,NP,BP,BB},
 	//					.
@@ -148,12 +123,12 @@ std::vector<ChessPiece> CameraIn::planeToChain(PlaneState piecePlain)
 	return chain;
 }
 //unfinished
-void CameraIn::getPieceMaps(pieceTypes type) throw(int)
+void CameraIn::getPieceCoords(std::vector<ChessPiece> chainFragment,pieceTypes type) throw(int)
 {
 	std::vector<cv::Rect> ROIs = getPieceROIs(type);
 
 
-	//std::thread::detach();
+	
 }
 //unfinished
 std::vector<cv::Rect> CameraIn::getPieceROIs(pieceTypes type)

@@ -33,8 +33,6 @@ void PlaneState::setPieceAt(cv::Point2i pos, pieceTypes dif)
 	state[pos.x][pos.y] = dif;
 }
 
-
-
 //methods
 bool PlaneState::isEmpty()
 {
