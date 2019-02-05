@@ -16,13 +16,14 @@ CameraIn::CameraIn(int offset) throw(bool)
 		throw(0);
 	}
 }
-//unfinished
+
 PlaneState CameraIn::getBoardStatePlane() throw (BOARDeRRORS)
 {
 	//This funktion should read the CameraInput, detect the board + all chesspieces 
 	//and return the current Planestate
 	PlaneState currentState;
-	std::vector<ChessPiece> fullchainState,fragment;
+	std::vector<ChessPiece> fullchainState;
+	std::array<std::vector<ChessPiece>, 12> fragments;
 	std::vector<std::thread> t_worker;
 
 	//1. The programm searches for the board and its fields.
@@ -38,28 +39,25 @@ PlaneState CameraIn::getBoardStatePlane() throw (BOARDeRRORS)
 	//Each type in a seperate thread
 	//The virtual coordinates are returned as a chain of ChessPieces
 
-	try {
-
-		for (int i = 0; i < 12; i++)
-		{
-			t_worker.push_back(std::thread{ getPieceCoords,pieceTypes(i + 1) });
-		}
+	for (int i = 0; i < 12; i++){
+		t_worker.push_back(std::thread{ getPieceCoords,ref(fragments[i]),pieceTypes(i + 1) });
 	}
-	catch (pieceTypes type) {
-		
-		//
-		//
-		//
-		//
-		throw(TooManyPieces);
-	}
-	for (int i = 0; i < t_worker.size(); i++)
-	{
+	for (int i = 0; i < t_worker.size(); i++){
 		if(t_worker[i].joinable()) t_worker[i].join();
 	}
 	//connect the chains
-
-	//3. checking for errors and deleting unessesary maps
+	for each (std::vector<ChessPiece> frag in fragments)
+	{
+		for each (ChessPiece piece in frag)
+		{
+			fullchainState.push_back(piece);
+		}
+	}
+	
+	//3. checking for errors
+	if (fullchainState.size()>32){
+		throw(TooManyPieces);
+	}
 	//check for double assigned fields
 	try
 	{
@@ -75,9 +73,7 @@ PlaneState CameraIn::getBoardStatePlane() throw (BOARDeRRORS)
 	}
 	catch (std::array<ChessPiece&,2> collision)
 	{
-		//
-		//
-		//
+		std::cout << "Fehler: Das Feld (" << collision[0].getPos().x << "/" << collision[1].getPos().y << ") ist nicht eindeutig erkennbar.";
 		throw(UnclearPiecePosition);
 	}
 	//4. convert the chain to a plane and return it
