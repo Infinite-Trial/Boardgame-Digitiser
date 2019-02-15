@@ -8,9 +8,9 @@
 
 CameraIn::CameraIn(int offset) throw(bool)
 {
-	cam0 = cv::VideoCapture(0 + offset);
-	cam1 = cv::VideoCapture(1 + offset);
-	if (!cam0.isOpened()||!cam1.isOpened())
+	cam[0] = cv::VideoCapture(0 + offset);
+	cam[1] = cv::VideoCapture(1 + offset);
+	if (!cam[0].isOpened()||!cam[1].isOpened())
 	{
 		std::cout << "Es konnte nicht auf alle Kameras zugegriffenwerden.";
 		throw(0);
@@ -22,13 +22,14 @@ PlaneState CameraIn::getBoardStatePlane() throw (BOARDeRRORS)
 	//This funktion should read the CameraInput, detect the board + all chesspieces 
 	//and return the current Planestate
 	PlaneState currentState;
+	std::vector<ChessField> chessFields;
 	std::vector<ChessPiece> fullchainState;
 	std::array<std::vector<ChessPiece>, 12> fragments;
 	std::vector<std::thread> t_worker;
 
 	//1. The programm searches for the board and its fields.
 	try {
-		std::vector<ChessField> fieldROIs = getFieldRecs();
+		chessFields = getChessFields();
 	}
 	catch (int detectedFields) {
 		std::cout << "Fehler: Es konnten " << detectedFields << "/" << BOARDHEIGHT * BOARDWIDTH << " Spielfelder erkannt werden.";
@@ -40,7 +41,7 @@ PlaneState CameraIn::getBoardStatePlane() throw (BOARDeRRORS)
 	//The virtual coordinates are returned as a chain of ChessPieces
 
 	for (int i = 0; i < 12; i++){
-		t_worker.push_back(std::thread{ getPieceCoords,ref(fragments[i]),pieceTypes(i + 1) });
+		t_worker.push_back(std::thread{ getPieceCoords, ref(fragments[i]), pieceTypes(i + 1), chessFields });
 	}
 	for (int i = 0; i < t_worker.size(); i++){
 		if(t_worker[i].joinable()) t_worker[i].join();
@@ -118,21 +119,52 @@ std::vector<ChessPiece> CameraIn::planeToChain(PlaneState piecePlain)
 		}
 	return chain;
 }
-//unfinished
-void CameraIn::getPieceCoords(std::vector<ChessPiece> chainFragment,pieceTypes type) throw(int)
+//maybe needs adjustments
+void CameraIn::getPieceCoords(std::vector<ChessPiece> chainFragment,pieceTypes type, std::vector<ChessField> chessfields) throw(int)
 {
-	std::vector<cv::Rect> ROIs = getPieceROIs(type);
+	//This funktion assigns each detected Chesspiece to the chessfield with which it overlapps the most.
+	std::vector<cv::Rect> pROIs = getPieceROIs(type);
+	int AUnion, AIntersection;
+	for each (cv::Rect pieceROI in pROIs)
+	{
+		int maxoverlap = 0, overlappingField = -1, overlapRatio;
+		for(int i=0; i<chessfields.size();i++ )
+		{
+			AIntersection = (pieceROI & chessfields[i].getFieldROI()).area();
+			//fields with no overlap are ignored
+			if (AIntersection > 0) {
+				AUnion = (pieceROI | chessfields[i].getFieldROI()).area();
+				overlapRatio = AIntersection / AUnion;
+				if (maxoverlap<overlapRatio)
+				{
+					maxoverlap = overlapRatio;
+					overlappingField = i;
+				}
+			}
+		}
+		//the piecetype and the coresponding chessfield are combined to a ChessPiece and added to the output-chain
+		chainFragment.push_back(ChessPiece(chessfields[overlappingField].getFieldCoord(), type));
+	}
+}
+
+//unfinished
+std::vector<cv::Rect> CameraIn::getPieceROIs(pieceTypes type, cv::VideoCapture cam)
+{
+	std::vector<cv::Rect> pieceROIs;
+	cv::Mat img;
+	cam >> img;
+	//insert fokus check
+
+	//you have to create the classefier and use detectMulti...whatever
+	//then compare them with the ROIs of the pieces of the right cam!!!
 
 
-	
+
+
+	return pieceROIs;
 }
 //unfinished
-std::vector<cv::Rect> CameraIn::getPieceROIs(pieceTypes type)
-{
-	return std::vector<cv::Rect>();
-}
-//unfinished
-std::vector<ChessField> CameraIn::getFieldRecs()
+std::vector<ChessField> CameraIn::getChessFields(cv::VideoCapture cam)
 {
 	std::vector<ChessField> fieldROIs;
 	
