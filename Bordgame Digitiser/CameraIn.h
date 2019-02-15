@@ -20,11 +20,11 @@ public:
 	std::vector<ChessPiece> planeToChain(PlaneState piecePlain);
 private:
 	//properties
-	cv::VideoCapture cam1,cam0;
+	std::array<cv::VideoCapture,2> cam;
 	std::vector<pieceTypes> detectedPieces;
 	std::vector<ChessField> detectedFields;
 	//methods
-	static void getPieceCoords(std::vector<ChessPiece> chainFragment, pieceTypes type) throw (pieceTypes);
+	static void getPieceCoords(std::vector<ChessPiece> &chainFragment, pieceTypes type) throw (pieceTypes);
 	static std::vector<cv::Rect> getPieceROIs(pieceTypes type);
 	std::vector<ChessField> getFieldRecs() throw (int);
 	

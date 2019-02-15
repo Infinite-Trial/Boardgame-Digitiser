@@ -1,20 +1,34 @@
 //Author:Gross
 
 #include "CameraIn.h"
+#include "opencv2/videoio.hpp"
 #include <iostream>
 #include <thread>
 
 
 
-CameraIn::CameraIn(int offset) throw(bool)
+CameraIn::CameraIn(int offset = 1) throw(bool)
 {
-	cam0 = cv::VideoCapture(0 + offset);
-	cam1 = cv::VideoCapture(1 + offset);
-	if (!cam0.isOpened()||!cam1.isOpened())
+	cam[0] = cv::VideoCapture(0 + offset);
+	cam[1] = cv::VideoCapture(1 + offset);
+	if (!cam[0].isOpened()||!cam[1].isOpened())
 	{
-		std::cout << "Es konnte nicht auf alle Kameras zugegriffenwerden.";
-		throw(0);
+		std::cout << "Es konnte nicht auf alle Kameras zugegriffen werden.";
+		throw(false);
 	}
+	//set the camera properties
+	for (short i = 0; i < cam.size(); i++)
+	{
+		//set resolution
+		cam[i].set(CV_CAP_PROP_FRAME_WIDTH, 1280);
+		cam[i].set(CV_CAP_PROP_FRAME_HEIGHT, 720);
+		//set Focus
+		cam[i].set(CV_CAP_PROP_AUTOFOCUS, 0);
+		cam[i].set(CV_CAP_PROP_FOCUS, 1);
+		//set FPS
+		cam[i].set(CV_CAP_PROP_FPS, 15);
+	}
+	
 }
 //unfinished
 PlaneState CameraIn::getBoardStatePlane() throw (BOARDeRRORS)
@@ -22,7 +36,8 @@ PlaneState CameraIn::getBoardStatePlane() throw (BOARDeRRORS)
 	//This funktion should read the CameraInput, detect the board + all chesspieces 
 	//and return the current Planestate
 	PlaneState currentState;
-	std::vector<ChessPiece> fullchainState,fragment;
+	std::vector<ChessPiece> fullchainState;
+	std::array<std::vector<ChessPiece>, 12> fragment;
 	std::vector<std::thread> t_worker;
 
 	//1. The programm searches for the board and its fields.
@@ -30,7 +45,7 @@ PlaneState CameraIn::getBoardStatePlane() throw (BOARDeRRORS)
 		std::vector<ChessField> fieldROIs = getFieldRecs();
 	}
 	catch (int detectedFields) {
-		std::cout << "Fehler: Es konnten " << detectedFields << "/" << BOARDHEIGHT * BOARDWIDTH << " Spielfelder erkannt werden.";
+		std::cout << "Fehler: Es konnten nur " << detectedFields << "/" << BOARDHEIGHT * BOARDWIDTH << " Spielfelder erkannt werden.";
 		throw NotEnoughFields;
 	}
 	//2. After the board is correctly detected:
@@ -42,7 +57,7 @@ PlaneState CameraIn::getBoardStatePlane() throw (BOARDeRRORS)
 
 		for (int i = 0; i < 12; i++)
 		{
-			t_worker.push_back(std::thread{ getPieceCoords,pieceTypes(i + 1) });
+			t_worker.push_back(std::thread{ getPieceCoords, std::ref(fragment[i]),(pieceTypes)(i + 1) });
 		}
 	}
 	catch (pieceTypes type) {
@@ -61,25 +76,17 @@ PlaneState CameraIn::getBoardStatePlane() throw (BOARDeRRORS)
 
 	//3. checking for errors and deleting unessesary maps
 	//check for double assigned fields
-	try
-	{
+	
 		//compare every ChessPiece with every other ChessPiece 
 		for (int i = 0; i < fullchainState.size(); i++)
 		{
 			for (int n = i + 1; n < fullchainState.size(); n++)
 			{
 				if (fullchainState[i].getPos() == fullchainState[n].getPos())
-					throw(std::array<ChessPiece&,2>{&fullchainState[i], &fullchainState[n]});
+					throw(UnclearPiecePosition);
 			}
 		}
-	}
-	catch (std::array<ChessPiece&,2> collision)
-	{
-		//
-		//
-		//
-		throw(UnclearPiecePosition);
-	}
+	
 	//4. convert the chain to a plane and return it
 	return chainToPlane(fullchainState);
 }
@@ -123,7 +130,7 @@ std::vector<ChessPiece> CameraIn::planeToChain(PlaneState piecePlain)
 	return chain;
 }
 //unfinished
-void CameraIn::getPieceCoords(std::vector<ChessPiece> chainFragment,pieceTypes type) throw(int)
+void CameraIn::getPieceCoords(std::vector<ChessPiece> &chainFragment,pieceTypes type) throw(pieceTypes)
 {
 	std::vector<cv::Rect> ROIs = getPieceROIs(type);
 
@@ -136,7 +143,7 @@ std::vector<cv::Rect> CameraIn::getPieceROIs(pieceTypes type)
 	return std::vector<cv::Rect>();
 }
 //unfinished
-std::vector<ChessField> CameraIn::getFieldRecs()
+std::vector<ChessField> CameraIn::getFieldRecs() throw (int)
 {
 	std::vector<ChessField> fieldROIs;
 	
