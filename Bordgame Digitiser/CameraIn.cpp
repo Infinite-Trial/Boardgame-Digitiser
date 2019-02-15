@@ -1,20 +1,34 @@
 //Author:Gross
 
 #include "CameraIn.h"
+#include "opencv2/videoio.hpp"
 #include <iostream>
 #include <thread>
 
 
 
-CameraIn::CameraIn(int offset) throw(bool)
+CameraIn::CameraIn(int offset = 1) throw(bool)
 {
 	cam[0] = cv::VideoCapture(0 + offset);
 	cam[1] = cv::VideoCapture(1 + offset);
 	if (!cam[0].isOpened()||!cam[1].isOpened())
 	{
-		std::cout << "Es konnte nicht auf alle Kameras zugegriffenwerden.";
-		throw(0);
+		std::cout << "Es konnte nicht auf alle Kameras zugegriffen werden.";
+		throw(false);
 	}
+	//set the camera properties
+	for (short i = 0; i < cam.size(); i++)
+	{
+		//set resolution
+		cam[i].set(CV_CAP_PROP_FRAME_WIDTH, 1280);
+		cam[i].set(CV_CAP_PROP_FRAME_HEIGHT, 720);
+		//set Focus
+		cam[i].set(CV_CAP_PROP_AUTOFOCUS, 0);
+		cam[i].set(CV_CAP_PROP_FOCUS, 1);
+		//set FPS
+		cam[i].set(CV_CAP_PROP_FPS, 15);
+	}
+	
 }
 
 PlaneState CameraIn::getBoardStatePlane() throw (BOARDeRRORS)
@@ -32,7 +46,7 @@ PlaneState CameraIn::getBoardStatePlane() throw (BOARDeRRORS)
 		chessFields = getChessFields();
 	}
 	catch (int detectedFields) {
-		std::cout << "Fehler: Es konnten " << detectedFields << "/" << BOARDHEIGHT * BOARDWIDTH << " Spielfelder erkannt werden.";
+		std::cout << "Fehler: Es konnten nur " << detectedFields << "/" << BOARDHEIGHT * BOARDWIDTH << " Spielfelder erkannt werden.";
 		throw NotEnoughFields;
 	}
 	//2. After the board is correctly detected:
@@ -60,23 +74,17 @@ PlaneState CameraIn::getBoardStatePlane() throw (BOARDeRRORS)
 		throw(TooManyPieces);
 	}
 	//check for double assigned fields
-	try
-	{
+	
 		//compare every ChessPiece with every other ChessPiece 
 		for (int i = 0; i < fullchainState.size(); i++)
 		{
 			for (int n = i + 1; n < fullchainState.size(); n++)
 			{
 				if (fullchainState[i].getPos() == fullchainState[n].getPos())
-					throw(std::array<ChessPiece&,2>{&fullchainState[i], &fullchainState[n]});
+					throw(UnclearPiecePosition);
 			}
 		}
-	}
-	catch (std::array<ChessPiece&,2> collision)
-	{
-		std::cout << "Fehler: Das Feld (" << collision[0].getPos().x << "/" << collision[1].getPos().y << ") ist nicht eindeutig erkennbar.";
-		throw(UnclearPiecePosition);
-	}
+	
 	//4. convert the chain to a plane and return it
 	return chainToPlane(fullchainState);
 }
@@ -148,7 +156,7 @@ void CameraIn::getPieceCoords(std::vector<ChessPiece> chainFragment,pieceTypes t
 }
 
 //unfinished
-std::vector<cv::Rect> CameraIn::getPieceROIs(pieceTypes type, cv::VideoCapture cam)
+void CameraIn::getPieceCoords(std::vector<ChessPiece> &chainFragment,pieceTypes type) throw(pieceTypes)
 {
 	std::vector<cv::Rect> pieceROIs;
 	cv::Mat img;
