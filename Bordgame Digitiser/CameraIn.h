@@ -18,11 +18,13 @@ public:
 	PlaneState getBoardStatePlane() throw (BOARDeRRORS); 
 	PlaneState chainToPlane(std::vector<ChessPiece> pieceChain);
 	std::vector<ChessPiece> planeToChain(PlaneState piecePlain);
+	void toggleDebug();
 private:
 	//properties
-	bool whiteSide=0;
+	bool leftSide; //stores the number of the cam which is positioned on the left edge of the board
+	bool debugMode;
 	std::array<cv::VideoCapture,2> cam;
-	std::array<cv::Mat, 2> snapshot;
+	std::array<cv::Mat, 2> snapshot; //the current view as a grayscale image
 	std::array<std::string, 12> pieceCascades;
 	
 	//methods

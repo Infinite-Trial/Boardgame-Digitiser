@@ -131,6 +131,11 @@ std::vector<ChessPiece> CameraIn::planeToChain(PlaneState piecePlain)
 	return chain;
 }
 
+void CameraIn::toggleDebug()
+{
+	debugMode = !debugMode;
+}
+
 //maybe needs adjustments
 void CameraIn::getPieceCoords(std::vector<ChessPiece> &chainFragment,pieceTypes type, std::array<std::vector<ChessField>,2> chessfields, std::array<cv::Mat, 2> pics) throw(int)
 {
@@ -150,6 +155,7 @@ void CameraIn::getPieceCoords(std::vector<ChessPiece> &chainFragment,pieceTypes 
 				AIntersection = (pieceROI & chessfields[n][i].getFieldROI()).area();
 				//fields with no overlap are ignored
 				if (AIntersection > 0) {
+					//the overlapping field is determined over the overpalratio, becaue not all fieldROIs have to be the same size.
 					AUnion = (pieceROI | chessfields[n][i].getFieldROI()).area();
 					overlapRatio = AIntersection / AUnion;
 					if (maxoverlap < overlapRatio)
@@ -172,7 +178,6 @@ std::vector<cv::Rect> CameraIn::getPieceROIs(pieceTypes type, cv::Mat pic) throw
 
 	
 	//you have to create the classefier and use detectMulti...whatever
-	//then compare them with the ROIs of the pieces of the right cam!!!
 
 
 
@@ -183,10 +188,70 @@ std::vector<cv::Rect> CameraIn::getPieceROIs(pieceTypes type, cv::Mat pic) throw
 std::vector<ChessField> CameraIn::getChessFields(int picNumber)
 {
 	std::vector<ChessField> fieldROIs;
-	
-	//snapshot.dfsgds
-	//
 
+	CvSeq *contour, *result;
+	CvMemStorage *storage = cvCreateMemStorage(0);
+	double area;
+	//convert mat to cvarr
+	IplImage* tmp = &IplImage(snapshot[picNumber]);
+	
+
+
+	//remove unnececarry noise
+	cvSmooth(tmp, tmp, CV_GAUSSIAN, 3, 3);
+	cvThreshold(tmp, tmp, 100, 255, CV_THRESH_BINARY_INV);
+	 
+	//finding all contours in the image
+	cvFindContours(tmp, storage, &contour, sizeof(CvContour), CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE, cvPoint(0, 0));
+	
+	while (contour)
+	{
+		//obtain a sequence of points of the countour, pointed by the variable 'countour'
+		result = cvApproxPoly(contour, sizeof(CvContour), storage, CV_POLY_APPROX_DP, cvContourPerimeter(contour)*0.02, 0);
+
+		//if there are 4 vertices in the contour and the area of the rectangle is more than 100 pixels
+		area = fabs(cvContourArea(result, CV_WHOLE_SEQ));
+		if (result->total == 4 && area > 10000 && area < 20000)
+		{
+			//convert the sequence to a vector of CvPoints
+			std::vector<CvPoint*> pt;
+			for (int i = 0; i < 4; i++)
+			{
+				pt[i] = (CvPoint*)cvGetSeqElem(result, i);
+			}
+			// ignore all with x=0 
+			// get virtual coordinates
+			// 
+			//
+			//
+
+			//drawing lines around the rectangle
+			if (debugMode)
+			{
+				cvLine(tmp, *pt[0], *pt[1], cvScalar(255, 0, 0), 4);
+				cvLine(tmp, *pt[1], *pt[2], cvScalar(255, 0, 0), 4);
+				cvLine(tmp, *pt[2], *pt[3], cvScalar(255, 0, 0), 4);
+				cvLine(tmp, *pt[3], *pt[0], cvScalar(255, 0, 0), 4);
+			}
+			
+
+		}
+		//obtain the next contour
+		contour = contour->h_next;
+	}
+
+
+
+
+
+	//show the results in debug mode
+	if (debugMode)
+	{
+		cv::namedWindow("DebugWindow");
+		cvShowImage("DebugWindow",tmp);
+	}
+	//close the window
+	cv::destroyWindow("DebugWindow");
 	if (fieldROIs.size() < BOARDHEIGHT*BOARDWIDTH)
 		throw fieldROIs.size();
 	return fieldROIs;
@@ -194,9 +259,18 @@ std::vector<ChessField> CameraIn::getChessFields(int picNumber)
 
 void CameraIn::updateCameras()
 {
-	for (short i = 0; i < cam.size(); i++)
+	int quality;
+	do
 	{
-		cam[i]>>snapshot[i];
-	}
+		//grab the next frame
+		for (short i = 0; i < cam.size(); i++)
+		{
+			cam[i]>>snapshot[i];
+		}
+		//blurdetection
+
+	} while (quality<CAMTHRESHOLD);
+	//convert to greyscale
+
 }
 

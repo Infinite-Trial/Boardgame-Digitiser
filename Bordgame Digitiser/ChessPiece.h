@@ -20,6 +20,6 @@ public:
 private:
 
 	pieceTypes type; //The type of the chesspiece
-	cv::Point2i coordinates; //The coordinates of the piece in the 2d vector
+	cv::Point2i coordinates; //The virtual coordinates of the piece in the 2d vector
 };
 
