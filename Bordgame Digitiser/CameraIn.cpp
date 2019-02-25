@@ -209,7 +209,7 @@ std::vector<ChessField> CameraIn::getChessFields(int picNumber)
 		//obtain a sequence of points of the countour, pointed by the variable 'countour'
 		result = cvApproxPoly(contour, sizeof(CvContour), storage, CV_POLY_APPROX_DP, cvContourPerimeter(contour)*0.02, 0);
 
-		//if there are 4 vertices in the contour and the area of the rectangle is more than 100 pixels
+		//if there are 4 vertices in the contour and the area of the rectangle is more than 10000 pixels
 		area = fabs(cvContourArea(result, CV_WHOLE_SEQ));
 		if (result->total == 4 && area > 10000 && area < 20000)
 		{
@@ -219,29 +219,28 @@ std::vector<ChessField> CameraIn::getChessFields(int picNumber)
 			{
 				pt[i] = (CvPoint*)cvGetSeqElem(result, i);
 			}
+
 			// ignore all with x=0 
-			// get virtual coordinates
-			// 
-			//
-			//
-
-			//drawing lines around the rectangle
-			if (debugMode)
+			if (!touchesBorder(pt))
 			{
-				cvLine(tmp, *pt[0], *pt[1], cvScalar(255, 0, 0), 4);
-				cvLine(tmp, *pt[1], *pt[2], cvScalar(255, 0, 0), 4);
-				cvLine(tmp, *pt[2], *pt[3], cvScalar(255, 0, 0), 4);
-				cvLine(tmp, *pt[3], *pt[0], cvScalar(255, 0, 0), 4);
-			}
-			
+				// get virtual coordinates
+				// 
+				//
+				//
 
+				//drawing lines around the rectangle
+				if (debugMode)
+				{
+					cvLine(tmp, *pt[0], *pt[1], cvScalar(255, 0, 0), 4);
+					cvLine(tmp, *pt[1], *pt[2], cvScalar(255, 0, 0), 4);
+					cvLine(tmp, *pt[2], *pt[3], cvScalar(255, 0, 0), 4);
+					cvLine(tmp, *pt[3], *pt[0], cvScalar(255, 0, 0), 4);
+				}
+			}
 		}
 		//obtain the next contour
 		contour = contour->h_next;
 	}
-
-
-
 
 
 	//show the results in debug mode
@@ -272,5 +271,18 @@ void CameraIn::updateCameras()
 	} while (quality<CAMTHRESHOLD);
 	//convert to greyscale
 
+}
+
+bool CameraIn::touchesBorder(std::vector<CvPoint*> points)
+{
+	//checks if the polygon touches the picture border. returns true if so.
+	for each (CvPoint* p in points)
+	{
+		if (p->y==0||p->x)
+		{
+			return true;
+		}
+	}
+	return false;
 }
 

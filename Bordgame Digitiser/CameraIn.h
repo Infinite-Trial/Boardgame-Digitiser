@@ -33,4 +33,5 @@ private:
 	std::vector<ChessField> getChessFields(int picNumber) throw (int);
 	
 	void updateCameras();//quality check is missing 
+	bool touchesBorder(std::vector<CvPoint*> points); 
 };
