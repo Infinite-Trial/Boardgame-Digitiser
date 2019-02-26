@@ -21,7 +21,7 @@ public:
 	void toggleDebug();
 private:
 	//properties
-	bool leftSide; //stores the number of the cam which is positioned on the left edge of the board
+	short leftSide=-1; //stores the number of the cam which is positioned on the left edge of the board
 	bool debugMode;
 	std::array<cv::VideoCapture,2> cam;
 	std::array<cv::Mat, 2> snapshot; //the current view as a grayscale image
@@ -34,4 +34,7 @@ private:
 	
 	void updateCameras();//quality check is missing 
 	bool touchesBorder(std::vector<CvPoint*> points); 
+	void updateBoardOrientation();
 };
+
+
