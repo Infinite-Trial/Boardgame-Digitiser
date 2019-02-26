@@ -171,16 +171,14 @@ void CameraIn::getPieceCoords(std::vector<ChessPiece> &chainFragment,pieceTypes 
 	}
 }
 
-//unfinished
+//For parallelistion add the TBB library
 std::vector<cv::Rect> CameraIn::getPieceROIs(pieceTypes type, cv::Mat pic) throw(pieceTypes)
 {
+	cv::Size minSize(60,60), maxSize(100,160);
 	std::vector<cv::Rect> pieceROIs;
-
+	cv::CascadeClassifier cascade(cascadesPaths[type-1]);
 	
-	//you have to create the classefier and use detectMulti...whatever
-
-
-
+	cascade.detectMultiScale(pic, pieceROIs, 1.1, 3, 0, minSize, maxSize);
 
 	return pieceROIs;
 }

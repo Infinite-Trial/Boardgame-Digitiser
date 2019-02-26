@@ -25,7 +25,7 @@ private:
 	bool debugMode;
 	std::array<cv::VideoCapture,2> cam;
 	std::array<cv::Mat, 2> snapshot; //the current view as a grayscale image
-	std::array<std::string, 12> pieceCascades;
+	static std::array<std::string, 12> cascadesPaths;
 	
 	//methods
 	static void getPieceCoords(std::vector<ChessPiece> &chainFragment, pieceTypes type, std::array < std::vector<ChessField>, 2> chessfields, std::array<cv::Mat, 2> pics) throw(ChessPiece);
