@@ -33,8 +33,9 @@ private:
 	std::vector<ChessField> getChessFields(int picNumber) throw (int);
 	
 	void updateCameras();//quality check is missing 
-	bool touchesBorder(std::vector<CvPoint*> points); 
+	bool touchesBorder(std::vector<CvPoint> points); 
 	void updateBoardOrientation();
+	cv::Rect toRect(std::vector<CvPoint> pts);
 };
 
-
+int average(int A, int B);

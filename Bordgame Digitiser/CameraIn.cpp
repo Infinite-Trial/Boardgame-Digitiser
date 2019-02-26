@@ -188,6 +188,7 @@ std::vector<cv::Rect> CameraIn::getPieceROIs(pieceTypes type, cv::Mat pic) throw
 std::vector<ChessField> CameraIn::getChessFields(int picNumber)
 {
 	std::vector<ChessField> fields;
+	std::vector<cv::Rect> ROIs;
 
 	CvSeq *contour, *result;
 	CvMemStorage *storage = cvCreateMemStorage(0);
@@ -212,33 +213,38 @@ std::vector<ChessField> CameraIn::getChessFields(int picNumber)
 		if (result->total == 4 && area > 10000 && area < 20000)
 		{
 			//convert the sequence to a vector of CvPoints
-			std::vector<CvPoint*> pt;
+			std::vector<CvPoint> pt;
 			for (int i = 0; i < 4; i++)
 			{
-				pt[i] = (CvPoint*)cvGetSeqElem(result, i);
+				pt[i] = *cvGetSeqElem(result, i);
 			}
 
 			// ignore all with x=0 
 			if (!touchesBorder(pt))
 			{
+				//turn the polygon into a rect
+				ROIs.push_back(toRect(pt));
+
 				//drawing lines around the rectangle
 				if (debugMode)
 				{
-					cvLine(tmp, *pt[0], *pt[1], cvScalar(255, 0, 0), 4);
-					cvLine(tmp, *pt[1], *pt[2], cvScalar(255, 0, 0), 4);
-					cvLine(tmp, *pt[2], *pt[3], cvScalar(255, 0, 0), 4);
-					cvLine(tmp, *pt[3], *pt[0], cvScalar(255, 0, 0), 4);
+					cvRectangleR();
+					cvLine(tmp, pt[0], pt[1], cvScalar(255, 0, 0), 4);
+					cvLine(tmp, pt[1], pt[2], cvScalar(255, 0, 0), 4);
+					cvLine(tmp, pt[2], pt[3], cvScalar(255, 0, 0), 4);
+					cvLine(tmp, pt[3], pt[0], cvScalar(255, 0, 0), 4);
 				}
-				// get virtual coordinates
-				//
-				//
-				//
-
 			}
 		}
 		//obtain the next contour
 		contour = contour->h_next;
 	}
+	// construct black tiles
+
+	// get virtual coordinates
+
+
+
 	//show the results in debug mode
 	if (debugMode)
 	{
@@ -267,12 +273,12 @@ void CameraIn::updateCameras()
 
 }
 
-bool CameraIn::touchesBorder(std::vector<CvPoint*> points)
+bool CameraIn::touchesBorder(std::vector<CvPoint> points)
 {
 	//checks if the polygon touches the picture border. returns true if so.
-	for each (CvPoint* p in points)
+	for each (CvPoint p in points)
 	{
-		if (p->y==0||p->x)
+		if (p.y==0||p.x)
 		{
 			return true;
 		}
@@ -286,5 +292,73 @@ void CameraIn::updateBoardOrientation()
 	//if he is positioned at the right ride of the picture, 
 	//it means that the camera is positioned on the left side of the Board.
 	leftSide = getPieceROIs(WK, snapshot[0]).at(0).x > SNAPSHOTWIDTH / 2 ? 0 : 1;
+}
+
+cv::Rect CameraIn::toRect(std::vector<CvPoint> pts)
+{
+	int minx = 10000, minx2 = 10000, //the left edge
+		miny = 10000, miny2 = 10000, //the upper edge
+		maxx = 0, maxx2 = 0, //the right edge
+		maxy = 0, maxy2 = 0, //the lower edge
+		x, y;
+	CvPoint a, c;
+
+	for (char i = 0; i < 4; i++)
+	{
+		x = pts[i].x;
+		y = pts[i].y;
+		//the most left edge
+		if (x<minx){
+			minx = x;
+		}
+		else {
+			//the 2nd most left edge
+			if (x < minx2){
+				minx2 = x;
+			}
+		}
+		//the most right edge
+		if (x > maxx) {
+			maxx = x;
+		}
+		//the 2nd most right edge
+		else {
+			if (x>maxx2){
+				maxx2 = x;
+			}	
+		}
+		//------------------------
+		//the highest edge
+		if (x < miny) {
+			miny = x;
+		}
+		else {
+			//the 2nd highest edge
+			if (x < miny2) {
+				miny2 = x;
+			}
+		}
+		//the lowest edge
+		if (x > maxy) {
+			maxy = x;
+		}
+		//the 2nd lowest edge
+		else {
+			if (x > maxy2) {
+				maxy2 = x;
+			}
+		}
+	}
+	//get a (the upper left corner)
+	a = cvPoint(average(minx,minx2),average(miny,miny2));
+	//get c (the lower right corner)
+	c = cvPoint(average(maxx, maxx2), average(maxy, maxy2));
+
+	return cv::Rect(a, c);
+}
+
+int average(int A,int B) {
+	return (A + B) / 2;
+
 }
 
