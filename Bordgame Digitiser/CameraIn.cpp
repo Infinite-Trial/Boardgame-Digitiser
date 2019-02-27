@@ -222,17 +222,12 @@ std::vector<ChessField> CameraIn::getChessFields(int picNumber)
 			// ignore all with x=0 
 			if (!touchesBorder(pt))
 			{
-				//turn the polygon into a rect
+				//turn the polygon into a rectangle
 				ROIs.push_back(toRect(pt));
 
-				//drawing lines around the rectangle
-				if (debugMode)
-				{
-					cvRectangleR();
-					cvLine(tmp, pt[0], pt[1], cvScalar(255, 0, 0), 4);
-					cvLine(tmp, pt[1], pt[2], cvScalar(255, 0, 0), 4);
-					cvLine(tmp, pt[2], pt[3], cvScalar(255, 0, 0), 4);
-					cvLine(tmp, pt[3], pt[0], cvScalar(255, 0, 0), 4);
+				//drawing the rectangle
+				if (debugMode){
+					cvRectangleR(tmp, ROIs.back(), cvScalar(255, 0, 0), 4);
 				}
 			}
 		}
@@ -359,6 +354,5 @@ cv::Rect CameraIn::toRect(std::vector<CvPoint> pts)
 
 int average(int A,int B) {
 	return (A + B) / 2;
-
 }
 
