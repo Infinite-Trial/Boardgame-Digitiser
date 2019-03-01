@@ -36,6 +36,9 @@ private:
 	bool touchesBorder(std::vector<CvPoint> points); 
 	void updateBoardOrientation();
 	cv::Rect toRect(std::vector<CvPoint> pts);
+
+	void sortBoard(std::array<std::array<cv::Rect*, 5>, 8> &board, std::vector<cv::Rect> ROIs);//indirect adresses to speed up the prozess
+	void constructBlack(std::array<std::array<cv::Rect*, 5>, 8 > &board);
 };
 
 int average(int A, int B);

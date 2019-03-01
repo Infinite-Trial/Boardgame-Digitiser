@@ -81,8 +81,7 @@ PlaneState CameraIn::getBoardStatePlane() throw (BOARDeRRORS)
 		throw(TooManyPieces);
 	}
 	//check for double assigned fields
-	
-	//compare every ChessPiece with every other ChessPiece 
+	//->compare every ChessPiece with every other ChessPiece 
 	for (int i = 0; i < fullchainState.size(); i++)
 	{
 		for (int n = i + 1; n < fullchainState.size(); n++)
@@ -189,6 +188,7 @@ std::vector<ChessField> CameraIn::getChessFields(int picNumber)
 {
 	std::vector<ChessField> fields;
 	std::vector<cv::Rect> ROIs;
+	std::array<std::array<cv::Rect*, 5>, 8> layout = {NULL};
 
 	CvSeq *contour, *result;
 	CvMemStorage *storage = cvCreateMemStorage(0);
@@ -214,14 +214,12 @@ std::vector<ChessField> CameraIn::getChessFields(int picNumber)
 		{
 			//convert the sequence to a vector of CvPoints
 			std::vector<CvPoint> pt;
-			for (int i = 0; i < 4; i++)
-			{
+			for (int i = 0; i < 4; i++){
 				pt[i] = *cvGetSeqElem(result, i);
 			}
 
 			// ignore all with x=0 
-			if (!touchesBorder(pt))
-			{
+			if (!touchesBorder(pt)){
 				//turn the polygon into a rectangle
 				ROIs.push_back(toRect(pt));
 
@@ -234,10 +232,21 @@ std::vector<ChessField> CameraIn::getChessFields(int picNumber)
 		//obtain the next contour
 		contour = contour->h_next;
 	}
+	// checks if all fields were detected
+	if (ROIs.size() < 32)throw(ROIs.size());
 	// construct black tiles
-
+	sortBoard(layout,ROIs);
+	constructBlack(layout);
 	// get virtual coordinates
-
+	for (int x = 0; x < layout.size(); x++)
+	{
+		int fy = picNumber==leftSide?8-x:x;
+		for (int y = 0; y < layout[x].size(); y++)
+		{
+			int fx= picNumber == leftSide ? 5-y : 3+y;
+			fields.push_back(ChessField(*layout[x][y], cv::Point2i(fx, fy)));
+		}
+	}
 
 
 	//show the results in debug mode
@@ -291,8 +300,8 @@ void CameraIn::updateBoardOrientation()
 
 cv::Rect CameraIn::toRect(std::vector<CvPoint> pts)
 {
-	int minx = 10000, minx2 = 10000, //the left edge
-		miny = 10000, miny2 = 10000, //the upper edge
+	int minx = SNAPSHOTWIDTH * 2, minx2 = SNAPSHOTWIDTH * 2, //the left edge
+		miny = SNAPSHOTHEIGHT * 2, miny2 = SNAPSHOTHEIGHT * 2, //the upper edge
 		maxx = 0, maxx2 = 0, //the right edge
 		maxy = 0, maxy2 = 0, //the lower edge
 		x, y;
@@ -350,6 +359,94 @@ cv::Rect CameraIn::toRect(std::vector<CvPoint> pts)
 	c = cvPoint(average(maxx, maxx2), average(maxy, maxy2));
 
 	return cv::Rect(a, c);
+}
+
+void CameraIn::sortBoard(std::array<std::array<cv::Rect*, 5>, 8>& board, std::vector<cv::Rect> ROIs)
+{
+
+	int minx = SNAPSHOTWIDTH * 2, minx2 = SNAPSHOTWIDTH * 2, //the left edge
+		miny = SNAPSHOTHEIGHT * 2, miny2 = SNAPSHOTHEIGHT * 2, //the upper edge
+		maxx = 0, maxx2 = 0, //the right edge
+		maxy = 0, maxy2 = 0, //the lower edge
+		x, y;
+
+	for (char i = 0; i < 4; i++)
+	{
+		x = pts[i].x;
+		y = pts[i].y;
+		//the most left edge
+		if (x < minx) {
+			minx = x;
+		}
+		else {
+			//the 2nd most left edge
+			if (x < minx2) {
+				minx2 = x;
+			}
+		}
+		//the most right edge
+		if (x > maxx) {
+			maxx = x;
+		}
+		//the 2nd most right edge
+		else {
+			if (x > maxx2) {
+				maxx2 = x;
+			}
+		}
+		//------------------------
+		//the highest edge
+		if (x < miny) {
+			miny = x;
+		}
+		else {
+			//the 2nd highest edge
+			if (x < miny2) {
+				miny2 = x;
+			}
+		}
+		//the lowest edge
+		if (x > maxy) {
+			maxy = x;
+		}
+		//the 2nd lowest edge
+		else {
+			if (x > maxy2) {
+				maxy2 = x;
+			}
+		}
+	}
+}
+
+void CameraIn::constructBlack(std::array<std::array<cv::Rect*, 5>, 8>& board)
+{
+	int x, y;
+	//all in y=4 and y=2
+	for ( x = 0; x < board.size()-1; x+=2)
+	{
+		for ( y = 2; y < board[x].size(); y+=2)
+		{
+			board[x][y] = new cv::Rect(board[x][y-1]->tl(), board[x+1][y]->tl());
+		}
+	}
+	//all in y=3 and y=1
+	for ( x = 1; x < board.size(); x += 2)
+	{
+		for ( y = 1; y < board[x].size(); y += 2)
+		{
+			board[x][y] = new cv::Rect(board[x][y - 1]->tl(), board[x + 1][y]->tl());
+		}
+	}
+	//y=0
+	y = 0;
+	for ( x = 0; x < board.size(); x += 2)
+	{
+		int nx1 = board[x][y + 1]->x,
+			ny1 = board[x][y + 1]->y + board[x][y + 1]->height,
+			nx2 = board[x + 1][y]->x ,
+			ny2 = board[x + 1][y]->y + board[x + 1][y]->width;
+		board[x][y] = new cv::Rect(cv::Point2i(nx1, ny1), cv::Point2i(nx2, ny2));
+	}
 }
 
 int average(int A,int B) {
