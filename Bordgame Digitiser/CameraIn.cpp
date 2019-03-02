@@ -9,6 +9,7 @@
 
 CameraIn::CameraIn(int offset = 1) throw(bool)
 {
+	//connect to the cameras
 	cam[0] = cv::VideoCapture(0 + offset);
 	cam[1] = cv::VideoCapture(1 + offset);
 	if (!cam[0].isOpened()||!cam[1].isOpened())
@@ -28,7 +29,18 @@ CameraIn::CameraIn(int offset = 1) throw(bool)
 		//set FPS
 		cam[i].set(CV_CAP_PROP_FPS, 15);
 	}
-	
+	//get the tiles ROIs
+	updateCameras();
+	for (int i = 0; i < fieldROIs.size(); i++)
+	{
+		try {
+			fieldROIs[i] = getFieldROIs(i);
+		}
+		catch (int detectedFields) {
+			std::cout << "Fehler: Es konnten nur " << detectedFields << "/" << BOARDHEIGHT * BOARDWIDTH << " Spielfelder erkannt werden.";
+			throw NotEnoughFields;
+		}
+	}
 }
 
 PlaneState CameraIn::getBoardStatePlane() throw (BOARDeRRORS)
@@ -42,26 +54,24 @@ PlaneState CameraIn::getBoardStatePlane() throw (BOARDeRRORS)
 	std::vector<std::thread> t_worker;
 	//0.update the cameras
 	updateCameras();
-	if(leftSide<0)	
-		updateBoardOrientation();
 
-	//1. The programm searches for the board and its fields.
-	try {
-		chessFields[0] = getChessFields(0);
-		chessFields[1] = getChessFields(1);
+	//1. on the first turn update the orientation of the board
+	if (leftSide < 0) {
+		updateBoardOrientation();
+		for(int i = 0; i < cam.size(); i++)
+		{
+			mapToVirtualCoordinates(fieldROIs[i],i);
+		}
 	}
-	catch (int detectedFields) {
-		std::cout << "Fehler: Es konnten nur " << detectedFields << "/" << BOARDHEIGHT * BOARDWIDTH << " Spielfelder erkannt werden.";
-		throw NotEnoughFields;
-	}
+
 	//2. After the board is correctly detected:
 	//The all ChessPieces are detected. 
 	//Each type in a seperate thread
 	//The virtual coordinates are returned as a chain of ChessPieces
 
 	for (int i = 0; i < 12; i++){
-		//Pls help
-		t_worker.push_back(std::thread( getPieceCoords, ref(fragments[i]), pieceTypes(i + 1), chessFields ));
+		
+		t_worker.push_back(std::thread( getPieceCoords, ref(fragments[i]), pieceTypes(i + 1), chessFields, snapshot));
 	}
 	//let all threads join
 	for (int i = 0; i < t_worker.size(); i++){
@@ -172,7 +182,7 @@ void CameraIn::getPieceCoords(std::vector<ChessPiece> &chainFragment,pieceTypes 
 		}
 	}
 }
-//For parallelistion add the TBB library
+//For parallelisation add the TBB library
 std::vector<cv::Rect> CameraIn::getPieceROIs(pieceTypes type, cv::Mat pic) throw(pieceTypes)
 {
 	cv::Size minSize(60,60), maxSize(100,160);
@@ -183,10 +193,9 @@ std::vector<cv::Rect> CameraIn::getPieceROIs(pieceTypes type, cv::Mat pic) throw
 
 	return pieceROIs;
 }
-//unfinished
-std::vector<ChessField> CameraIn::getChessFields(int picNumber)
+
+std::array<std::array<cv::Rect*, 5>, 8> CameraIn::getFieldROIs(int picNumber) throw(int)
 {
-	std::vector<ChessField> fields;
 	std::vector<cv::Rect> ROIs;
 	std::array<std::array<cv::Rect*, 5>, 8> layout = {NULL};
 
@@ -222,11 +231,6 @@ std::vector<ChessField> CameraIn::getChessFields(int picNumber)
 			if (!touchesBorder(pt)){
 				//turn the polygon into a rectangle
 				ROIs.push_back(toRect(pt));
-
-				//drawing the rectangle
-				if (debugMode){
-					cvRectangleR(tmp, ROIs.back(), cvScalar(255, 0, 0), 4);
-				}
 			}
 		}
 		//obtain the next contour
@@ -237,33 +241,45 @@ std::vector<ChessField> CameraIn::getChessFields(int picNumber)
 	// construct black tiles
 	sortBoard(layout,ROIs);
 	constructBlack(layout);
-	// get virtual coordinates
-	for (int x = 0; x < layout.size(); x++)
-	{
-		int fy = picNumber==leftSide?8-x:x;
-		for (int y = 0; y < layout[x].size(); y++)
-		{
-			int fx= picNumber == leftSide ? 5-y : 3+y;
-			fields.push_back(ChessField(*layout[x][y], cv::Point2i(fx, fy)));
-		}
-	}
-
 
 	//show the results in debug mode
 	if (debugMode)
-	{
+	{	
+		//drawing the rectangles
+		for (int x = 0; x < layout.size(); x++)
+		{
+			for (int y = 0; y < layout[x].size(); y++)
+			{
+				cvRectangleR(tmp, *layout[x][y], cvScalar(255, 0, 0), 4);
+			}
+		}
 		cv::namedWindow("DebugWindow");
 		cvShowImage("DebugWindow",tmp);
 	}
-	//close the window
-	cv::destroyWindow("DebugWindow");
 	
+	return layout;
+}
+
+std::vector<ChessField> CameraIn::mapToVirtualCoordinates(std::array<std::array<cv::Rect*, 5>, 8> layout, int picNumber)
+{
+	std::vector<ChessField> fields;
+	// get virtual coordinates
+	for (int x = 0; x < layout.size(); x++)
+	{
+		int fy = picNumber == leftSide ? 8 - x : x;
+		for (int y = 0; y < layout[x].size(); y++)
+		{
+			int fx = picNumber == leftSide ? 5 - y : 3 + y;
+			fields.push_back(ChessField(*layout[x][y], cv::Point2i(fx, fy)));
+		}
+	}
 	return fields;
 }
+
 //incomplete
-void CameraIn::updateCameras()
+void CameraIn::updateCameras() throw(bool)
 {
-	int quality;
+	int quality,i=0;
 	do
 	{
 		//grab the next frame
@@ -271,10 +287,16 @@ void CameraIn::updateCameras()
 		{
 			cam[i]>>snapshot[i];
 		}
-
+		//check the blurrieness
+		
+		//try five times then throw an exeption
+		if (i > 5)throw(false);
+		i++;
 	} while (quality<CAMTHRESHOLD);
 	//convert to greyscale
-
+	for (int i = 0; i < snapshot.size(); i++) {
+		cv::cvtColor(snapshot[i], snapshot[i], cv::COLOR_BGR2GRAY);
+	}
 }
 
 bool CameraIn::touchesBorder(std::vector<CvPoint> points)
@@ -307,75 +329,14 @@ cv::Rect CameraIn::toRect(std::vector<CvPoint> pts)
 		x, y;
 	CvPoint a, c;
 
-	for (char i = 0; i < 4; i++)
-	{
-		x = pts[i].x;
-		y = pts[i].y;
-		//the most left edge
-		if (x<minx){
-			minx = x;
-		}
-		else {
-			//the 2nd most left edge
-			if (x < minx2){
-				minx2 = x;
-			}
-		}
-		//the most right edge
-		if (x > maxx) {
-			maxx = x;
-		}
-		//the 2nd most right edge
-		else {
-			if (x>maxx2){
-				maxx2 = x;
-			}	
-		}
-		//------------------------
-		//the highest edge
-		if (x < miny) {
-			miny = x;
-		}
-		else {
-			//the 2nd highest edge
-			if (x < miny2) {
-				miny2 = x;
-			}
-		}
-		//the lowest edge
-		if (x > maxy) {
-			maxy = x;
-		}
-		//the 2nd lowest edge
-		else {
-			if (x > maxy2) {
-				maxy2 = x;
-			}
-		}
-	}
-	//get a (the upper left corner)
-	a = cvPoint(average(minx,minx2),average(miny,miny2));
-	//get c (the lower right corner)
-	c = cvPoint(average(maxx, maxx2), average(maxy, maxy2));
-
-	return cv::Rect(a, c);
-}
-
-void CameraIn::sortBoard(std::array<std::array<cv::Rect*, 5>, 8>& board, std::vector<cv::Rect> ROIs)
-{
-
-	int minx = SNAPSHOTWIDTH * 2, minx2 = SNAPSHOTWIDTH * 2, //the left edge
-		miny = SNAPSHOTHEIGHT * 2, miny2 = SNAPSHOTHEIGHT * 2, //the upper edge
-		maxx = 0, maxx2 = 0, //the right edge
-		maxy = 0, maxy2 = 0, //the lower edge
-		x, y;
-
+	
 	for (char i = 0; i < 4; i++)
 	{
 		x = pts[i].x;
 		y = pts[i].y;
 		//the most left edge
 		if (x < minx) {
+			minx2 = minx;
 			minx = x;
 		}
 		else {
@@ -386,6 +347,7 @@ void CameraIn::sortBoard(std::array<std::array<cv::Rect*, 5>, 8>& board, std::ve
 		}
 		//the most right edge
 		if (x > maxx) {
+			maxx2 = maxx;
 			maxx = x;
 		}
 		//the 2nd most right edge
@@ -397,6 +359,7 @@ void CameraIn::sortBoard(std::array<std::array<cv::Rect*, 5>, 8>& board, std::ve
 		//------------------------
 		//the highest edge
 		if (x < miny) {
+			miny2 = miny;
 			miny = x;
 		}
 		else {
@@ -407,12 +370,101 @@ void CameraIn::sortBoard(std::array<std::array<cv::Rect*, 5>, 8>& board, std::ve
 		}
 		//the lowest edge
 		if (x > maxy) {
+			maxy2 = maxx;
 			maxy = x;
 		}
 		//the 2nd lowest edge
 		else {
 			if (x > maxy2) {
 				maxy2 = x;
+			}
+		}
+
+	}
+	//get a (the upper left corner)
+	a = cvPoint(average(minx,minx2),average(miny,miny2));
+	//get c (the lower right corner)
+	c = cvPoint(average(maxx, maxx2), average(maxy, maxy2));
+
+	return cv::Rect(a, c);
+}
+
+void CameraIn::sortBoard(std::array<std::array<cv::Rect*, 5>, 8>& board, std::vector<cv::Rect> ROIs)
+{
+	const int lenghtOfXBlock = 5, lenghtOfYBlock = 4;
+	std::array<cv::Rect*, 20> orderX, orderY;
+	int x, y;
+	
+	//a serial indirect acess is created
+	for ( x = 0; x < board.size(); x++)
+	{
+		for ( y = 0; y < board[x].size(); y++)
+		{
+			orderX[x*y + y] = board[x][y];
+			orderY[x*y + y] = board[x][y];
+		}
+	}
+	
+	//insertion sort
+	cv::Rect** max;
+	//a rising list of x values is made
+	for (int i = orderX.size() - 1; i >= 0; i--)
+	{
+		max = &orderX[i];
+		for (int j = i; j >= 0; j--)
+		{
+			if (orderX[j]->x > (*max)->x)
+			{
+				max = &orderX[j];
+			}
+			std::swap(orderX[i], *max);
+		}
+	}
+	//a rising list of y values is made
+	for (int i = orderY.size() - 1; i >= 0; i--)
+	{
+		max = &orderY[i];
+		for (int j = i; j >= 0; j--)
+		{
+			if (orderY[j]->x > (*max)->x)
+			{
+				max = &orderY[j];
+			}
+			std::swap(orderY[i], *max);
+		}
+	}
+
+
+	//now asign the ROIs to the right places
+	//all even y
+	//iterating through all 
+	for (x = 1; x < board.size(); x += 2)
+	{
+		for (y = 0; y < board[x].size(); y += 2)
+		{
+			for (int i = 0; i < lenghtOfXBlock; i++)
+			{
+				for (int j = 0; j < lenghtOfXBlock; j++)
+				{
+					if (orderY[y * 4 + i] == orderX[y * 5 + j])
+						board[x][y] = orderY[y * 4 + i];
+				}
+			}
+		}
+	}
+
+	//all uneven ys
+	for (x = 0; x < board.size(); x += 2)
+	{
+		for (y = 1; y < board[x].size(); y += 2)
+		{
+			for (int i = 0; i < lenghtOfXBlock; i++)
+			{
+				for (int j = 0; j < lenghtOfXBlock; j++)
+				{
+					if (orderY[y * 4 + i] == orderX[y * 5 + j])
+						board[x][y] = orderY[y * 4 + i];
+				}
 			}
 		}
 	}
