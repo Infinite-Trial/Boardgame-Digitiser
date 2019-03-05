@@ -41,6 +41,8 @@ private:
 
 	void sortBoard(std::array<std::array<cv::Rect*, 5>, 8> &board, std::vector<cv::Rect> ROIs);//indirect adresses to speed up the prozess
 	void constructBlack(std::array<std::array<cv::Rect*, 5>, 8 > &board);
+
+	double blurryness(cv::Mat img);
 	
 	//structures
 	/*struct threadPara

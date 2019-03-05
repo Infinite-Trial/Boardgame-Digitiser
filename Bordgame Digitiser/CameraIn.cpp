@@ -279,24 +279,24 @@ std::vector<ChessField> CameraIn::mapToVirtualCoordinates(std::array<std::array<
 //incomplete
 void CameraIn::updateCameras() throw(bool)
 {
-	int quality,i=0;
-	do
+	int n=0;
+	double quality;
+	for (short i = 0; i < cam.size(); i++)
 	{
-		//grab the next frame
-		for (short i = 0; i < cam.size(); i++)
+		do
 		{
-			cam[i]>>snapshot[i];
-		}
-		//check the blurrieness
-		
-		//try five times then throw an exeption
-		if (i > 5)throw(false);
-		i++;
-	} while (quality<CAMTHRESHOLD);
-	//convert to greyscale
-	for (int i = 0; i < snapshot.size(); i++) {
-		cv::cvtColor(snapshot[i], snapshot[i], cv::COLOR_BGR2GRAY);
+			//grab the next frame
+			cam[n] >> snapshot[n];
+			//convert to greyscale
+			cv::cvtColor(snapshot[n], snapshot[n], cv::COLOR_BGR2GRAY);
+			//check the blurrieness
+			quality = blurryness(snapshot[n]);
+			//try five times then throw an exeption
+			if (n > 5)throw(false);
+			n++;
+		} while (quality < CAMTHRESHOLD);
 	}
+	
 }
 
 bool CameraIn::touchesBorder(std::vector<CvPoint> points)
@@ -505,3 +505,13 @@ int average(int A,int B) {
 	return (A + B) / 2;
 }
 
+double CameraIn::blurryness(cv::Mat img_gray) {
+	cv::Mat dst;
+	cv::Scalar mean, stddev;
+
+	Laplacian(img_gray, dst, CV_64F);
+
+	meanStdDev(dst, mean, stddev, cv::Mat());
+
+	return stddev.val[0] * stddev.val[0];
+}
