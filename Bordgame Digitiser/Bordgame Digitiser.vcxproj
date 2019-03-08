@@ -142,6 +142,7 @@
     <ClCompile Include="ChessField.cpp" />
     <ClCompile Include="ChessPiece.cpp" />
     <ClCompile Include="PlaneState.cpp" />
+    <ClCompile Include="Rules.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h">
@@ -152,6 +153,7 @@
     <ClInclude Include="ChessPiece.h" />
     <ClInclude Include="CONSTANTS.h" />
     <ClInclude Include="PlaneState.h" />
+    <ClInclude Include="Rules.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Board.resx">
