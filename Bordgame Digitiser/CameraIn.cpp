@@ -155,7 +155,7 @@ void CameraIn::getPieceCoords(std::vector<ChessPiece> &chainFragment,pieceTypes 
 	
 	int AUnion, AIntersection;
 	//all cams are cycled through
-	for (short n = 0; n < chessfields.size(); n++)
+	for (short n = 0; n < pics.size(); n++)
 	{
 		//look for the field the pieceROI overlaps the most with
 		std::vector<cv::Rect> pROIs = getPieceROIs(type,pics[n]);
@@ -170,7 +170,7 @@ void CameraIn::getPieceCoords(std::vector<ChessPiece> &chainFragment,pieceTypes 
 					//the overlapping field is determined over the overpalratio, becaue not all fieldROIs have to be the same size.
 					AUnion = (pieceROI | chessfields[n][i].getFieldROI()).area();
 					overlapRatio = AIntersection / AUnion;
-					if (maxoverlap < overlapRatio)
+					if (maxoverlap < overlapRatio && overlapRatio > 5)
 					{
 						maxoverlap = overlapRatio;
 						overlappingField = i;
@@ -276,7 +276,7 @@ std::vector<ChessField> CameraIn::mapToVirtualCoordinates(std::array<std::array<
 	return fields;
 }
 
-//incomplete
+
 void CameraIn::updateCameras() throw(bool)
 {
 	int n=0;
