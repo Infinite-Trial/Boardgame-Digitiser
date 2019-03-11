@@ -304,7 +304,7 @@ bool CameraIn::touchesBorder(std::vector<CvPoint> points)
 	//checks if the polygon touches the picture border. returns true if so.
 	for each (CvPoint p in points)
 	{
-		if (p.y==0||p.x)
+		if (p.y==0||p.x==0)
 		{
 			return true;
 		}
@@ -396,13 +396,10 @@ void CameraIn::sortBoard(std::array<std::array<cv::Rect*, 5>, 8>& board, std::ve
 	int x, y;
 	
 	//a serial indirect acess is created
-	for ( x = 0; x < board.size(); x++)
+	for ( x = 0; x < ROIs.size(); x++)
 	{
-		for ( y = 0; y < board[x].size(); y++)
-		{
-			orderX[x*y + y] = board[x][y];
-			orderY[x*y + y] = board[x][y];
-		}
+		orderX[x] = &ROIs[x];
+		orderY[x] = &ROIs[x];
 	}
 	
 	//insertion sort
@@ -417,8 +414,8 @@ void CameraIn::sortBoard(std::array<std::array<cv::Rect*, 5>, 8>& board, std::ve
 			{
 				max = &orderX[j];
 			}
-			std::swap(orderX[i], *max);
 		}
+		std::swap(orderX[i], *max);
 	}
 	//a rising list of y values is made
 	for (int i = orderY.size() - 1; i >= 0; i--)
@@ -430,24 +427,26 @@ void CameraIn::sortBoard(std::array<std::array<cv::Rect*, 5>, 8>& board, std::ve
 			{
 				max = &orderY[j];
 			}
-			std::swap(orderY[i], *max);
 		}
+		std::swap(orderY[i], *max);
 	}
 
 
 	//now asign the ROIs to the right places
 	//all even y
-	//iterating through all 
+	//iterating through all board tiles
 	for (x = 1; x < board.size(); x += 2)
 	{
 		for (y = 0; y < board[x].size(); y += 2)
 		{
-			for (int i = 0; i < lenghtOfXBlock; i++)
+			//iterate through the highest y coordinate
+			for (int i = 0; i < lenghtOfYBlock; i++)
 			{
+				//iterate through the highest x coordinate
 				for (int j = 0; j < lenghtOfXBlock; j++)
 				{
-					if (orderY[y * 4 + i] == orderX[y * 5 + j])
-						board[x][y] = orderY[y * 4 + i];
+					if (orderY[y * lenghtOfYBlock + i] == orderX[x * lenghtOfXBlock + j])
+						board[x][y] = orderY[y * lenghtOfYBlock + i];
 				}
 			}
 		}
@@ -458,12 +457,14 @@ void CameraIn::sortBoard(std::array<std::array<cv::Rect*, 5>, 8>& board, std::ve
 	{
 		for (y = 1; y < board[x].size(); y += 2)
 		{
-			for (int i = 0; i < lenghtOfXBlock; i++)
+			//iterate through the highest y coordinate
+			for (int i = 0; i < lenghtOfYBlock; i++)
 			{
+				//iterate through the highest x coordinate
 				for (int j = 0; j < lenghtOfXBlock; j++)
 				{
-					if (orderY[y * 4 + i] == orderX[y * 5 + j])
-						board[x][y] = orderY[y * 4 + i];
+					if (orderY[y * lenghtOfYBlock + i] == orderX[x * lenghtOfXBlock + j])
+						board[x][y] = orderY[y * lenghtOfYBlock + i];
 				}
 			}
 		}
