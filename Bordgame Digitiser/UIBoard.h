@@ -37,7 +37,7 @@ namespace BordgameDigitiser {
 		
 		
 
-		void setLocation(pieceTypes pieceType, System::Drawing::Point prevLocation, System::Drawing::Point currentLocation) {
+		/*void setLocation(pieceTypes pieceType, System::Drawing::Point prevLocation, System::Drawing::Point currentLocation) {
 
 			switch (pieceType)
 			{
@@ -141,7 +141,7 @@ namespace BordgameDigitiser {
 			default:
 				break;
 			}
-		}
+		}*/
 	private:
 
 		System::Drawing::Point exitPoint = System::Drawing::Point(-240, -240);;

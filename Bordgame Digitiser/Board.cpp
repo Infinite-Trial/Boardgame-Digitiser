@@ -7,7 +7,7 @@ Board::Board()
 
 }
 
-void Board::synchronizeVirtual(BordgameDigitiser::UIBoard form)
+/*void Board::synchronizeVirtual(BordgameDigitiser::UIBoard form)
 {
 	this->difference = currentState.difference(previousState);
 	if (currentState.getPieceAt(difference[0]) == NP) 
@@ -22,9 +22,9 @@ void Board::synchronizeVirtual(BordgameDigitiser::UIBoard form)
 	this->prevLocation.Y = difference[prev].y * 240;
 	this->currentLocation.X = difference[current].x * 240;
 	this->currentLocation.Y = difference[current].y * 240;
-	form.setLocation(currentState.getPieceAt(difference[current]), prevLocation, currentLocation);
+//	form.setLocation(currentState.getPieceAt(difference[current]), prevLocation, currentLocation);
 
-}
+}*/
 
 
 
