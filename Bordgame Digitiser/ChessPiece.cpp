@@ -32,3 +32,4 @@ pieceTypes ChessPiece::getType()
 {
 	return type;
 }
+

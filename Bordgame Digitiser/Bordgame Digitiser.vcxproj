@@ -102,13 +102,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\mario\Documents\OpenCV\opencv\build\include;C:\Program Files (x86)\Microsoft Visual Studio\Library\opencv\build\include;C:\Users\FelixGross\source\repos\opencv\build\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\mario\Documents\OpenCV\opencv\build\include;C:\Users\Angelo\source\opencv\build\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opencv_world343d.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Users\mario\Documents\OpenCV\opencv\build\x64\vc14\lib;C:\Program Files (x86)\Microsoft Visual Studio\Library\opencv\build\x64\vc14\lib;C:\Users\FelixGross\source\repos\opencv\build\x64\vc14\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opencv_world343d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\mario\Documents\OpenCV\opencv\build\x64\vc14\lib;C:\Users\Angelo\source\opencv\build\x64\vc14\lib</AdditionalLibraryDirectories>
       <EntryPointSymbol>Main</EntryPointSymbol>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -138,6 +138,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="CameraIn.cpp" />
     <ClCompile Include="CameraIn.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</CompileAsManaged>
     </ClCompile>
@@ -146,7 +148,11 @@
     <ClCompile Include="PlaneState.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Board.h">
+    <ClInclude Include="Board.h" />
+    <ClInclude Include="UIBoard.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="UIMenu.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="CameraIn.h" />
@@ -156,8 +162,11 @@
     <ClInclude Include="PlaneState.h" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Board.resx">
-      <DependentUpon>Board.h</DependentUpon>
+    <EmbeddedResource Include="UIBoard.resx">
+      <DependentUpon>UIBoard.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIMenu.resx">
+      <DependentUpon>UIMenu.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
