@@ -139,7 +139,6 @@
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="CameraIn.cpp" />
     <ClCompile Include="CameraIn.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</CompileAsManaged>
     </ClCompile>
