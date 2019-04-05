@@ -45,8 +45,8 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CLRSupport>true</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>true</CLRSupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -102,11 +102,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Program Files (x86)\Microsoft Visual Studio\Library\opencv\build\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\mario\Documents\OpenCV\opencv\build\include;C:\Program Files (x86)\Microsoft Visual Studio\Library\opencv\build\include;C:\Users\FelixGross\source\repos\opencv\build\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>opencv_world343d.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Program Files (x86)\Microsoft Visual Studio\Library\opencv\build\x64\vc14\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\mario\Documents\OpenCV\opencv\build\x64\vc14\lib;C:\Program Files (x86)\Microsoft Visual Studio\Library\opencv\build\x64\vc14\lib;C:\Users\FelixGross\source\repos\opencv\build\x64\vc14\lib</AdditionalLibraryDirectories>
+      <EntryPointSymbol>Main</EntryPointSymbol>
+      <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -136,11 +138,22 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
+    <ClCompile Include="CameraIn.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="ChessField.cpp" />
+    <ClCompile Include="ChessPiece.cpp" />
+    <ClCompile Include="PlaneState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="CameraIn.h" />
+    <ClInclude Include="ChessField.h" />
+    <ClInclude Include="ChessPiece.h" />
+    <ClInclude Include="CONSTANTS.h" />
+    <ClInclude Include="PlaneState.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Board.resx">

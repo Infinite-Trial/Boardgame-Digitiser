@@ -16,11 +16,9 @@ using namespace cv;
 using namespace std;
 
 [STAThreadAttribute]
-void main() {
-
+void Main() {
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false);
 	BordgameDigitiser::Board form;
 	Application::Run(%form);
 }
-
