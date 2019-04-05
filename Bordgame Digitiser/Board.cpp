@@ -1,3 +1,4 @@
+#if defined(__linux__) || defined(LINUX) || defined(__APPLE__) || defined(ANDROID) || (defined(_MSC_VER) && _MSC_VER>=1800)
 #include "Board.h"
 
 
@@ -42,3 +43,5 @@ void Board::setCurrState(PlaneState state)
 {
 	this->previousState = state;
 }
+
+#endif
